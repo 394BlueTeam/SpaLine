@@ -17,7 +17,6 @@ function initialize() {
     browserSupportFlag = true;
     navigator.geolocation.getCurrentPosition(function(position) {
       initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-      console.log(initialLocation);
       map.setCenter(initialLocation);
     }, function() {
       handleNoGeolocation(browserSupportFlag);
@@ -38,6 +37,7 @@ function initialize() {
     map.setCenter(initialLocation);
   }
 
+  console.log(initialLocation);
   places(initialLocation);
 }
 
