@@ -58,7 +58,6 @@ function places(coords) {
 
   var request = {
     location: coords,
-    radius: 500,
     types: ['hair_care'],
     rankBy: google.maps.places.RankBy.DISTANCE
   };
