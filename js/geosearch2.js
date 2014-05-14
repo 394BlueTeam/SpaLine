@@ -18,7 +18,7 @@ function initialize() {
         position: pos,
         content: 'Location found using HTML5.'
       });
-
+      console.log(pos);
       map.setCenter(pos);
     }, function() {
       handleNoGeolocation(true);
@@ -28,7 +28,7 @@ function initialize() {
     handleNoGeolocation(false);
   }
 
-  console.log(pos);
+  
 }
 
 function handleNoGeolocation(errorFlag) {
