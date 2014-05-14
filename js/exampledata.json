@@ -1,0 +1,569 @@
+[
+   {
+      "geometry":{
+         "location":{
+            "k":42.045302,
+            "A":-87.68174699999997
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"627a656c8ad90d0d1123bdd98c5718ce611b8d27",
+      "name":"Egea The North Shore's Wellness Spa",
+      "opening_hours":{
+         "open_now":true
+      },
+      "photos":[
+         {
+            "height":386,
+            "html_attributions":[
+
+            ],
+            "width":650
+         }
+      ],
+      "rating":4.2,
+      "reference":"CpQBhAAAAE8XsB7Gs5WB80xSasurfZivE6RBtazB4Zbx__EJvmLeGpxsKayX8vb4jD6GQqH0XU27iLetTwgUwkbJn3IRNWeSK6PJ8hS5QOxO1O8xrBd5jgzoAd3DUK1DffYcQ4kDB9fdChD747c8id5m4XEULx5buihWuWyVEQfFcayR-J-XGHyF28Fz9uElgxJO7sbdxRIQ2EbLbbHF8CWp4bzE2zWeZxoUZ_Q7y6MkeE_wq-2i1XAD84Sc8As",
+      "types":[
+         "beauty_salon",
+         "spa",
+         "health",
+         "establishment"
+      ],
+      "vicinity":"1521 Sherman Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.047336,
+            "A":-87.68197900000001
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"4ba80577cce5f5d53999d1542ec0052941c92745",
+      "name":"Asha Salon",
+      "opening_hours":{
+         "open_now":false
+      },
+      "photos":[
+         {
+            "height":333,
+            "html_attributions":[
+
+            ],
+            "width":512
+         }
+      ],
+      "rating":3.8,
+      "reference":"CnRrAAAAOwWDgaCseD8jxcDv5GOnRfIM89eYVmfw7dJGcTkyJQtWbP9YchV-YvFvEakDdTI1uEgth_uvfuG_1Ejgyd0V5WqpuPwnjmVL2FfllQko1olKOaG97kPUaXnAPNte5-dWCS-vWAJbu0vfasMQwiFMDBIQv6qu9BUzPQKDlooumx74KRoUcZVhagtL_UsGAN-JGx8MgbVJpCM",
+      "types":[
+         "beauty_salon",
+         "spa",
+         "hair_care",
+         "health",
+         "establishment"
+      ],
+      "vicinity":"1604 Sherman Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.046373,
+            "A":-87.67994399999998
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"efda3b315f1e1546d8da2c0b18bcf64cd271b00c",
+      "name":"Salon Roula",
+      "opening_hours":{
+         "open_now":false
+      },
+      "photos":[
+         {
+            "height":751,
+            "html_attributions":[
+
+            ],
+            "width":960
+         }
+      ],
+      "rating":4.5,
+      "reference":"CnRsAAAAV4kGzCzpmxqNjhyXmyulGOOSApKHERErSN8oqLtwiecjWfeKIKNhwYXC89mm1vi8yb9fcBbFE95NIzOxWdzBP_yPRc7oTXs15qBG-jWnkfmnh4K-uD1XJXuo4WgDY6I2aFFb5N5R1DCrZC6uPC192BIQ6bPqehg21eZ_Dysgbuv06hoUMs9MmYyp76eqkLKbLWkLuXvxZIo",
+      "types":[
+         "beauty_salon",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"603 Davis St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.049234,
+            "A":-87.681622
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"0aa71cd26623c245bbb44dbb4b368e82298f0992",
+      "name":"Steven Papageorge Salon and Spa",
+      "opening_hours":{
+         "open_now":true
+      },
+      "photos":[
+         {
+            "height":2937,
+            "html_attributions":[
+
+            ],
+            "width":3352
+         }
+      ],
+      "reference":"CoQBgAAAAOgT3iMFkjyfE9SvbQenfPFnDaHPGAUS6RlTxCILA3ypcrhmJzxJ7NTtPxJWDoSTrxLUJrt8luqmjD2aGuvA-6FDMesVJHCyop1I5x2gUoQSOhQzeuGiCnA0yi1pF5ylXsHRVDL9mbJaaS53l_kuM3euHI5yMNn-vU7ImE6yxZ__EhCB5y0JmOJ21zVxFUZLFVFYGhQsVhNjVuQ61ihExowTm4BILWBBvQ",
+      "types":[
+         "beauty_salon",
+         "spa",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"1721 Sherman Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.045934,
+            "A":-87.67997200000002
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"865aeb11a49d028691ef2d0396d94f08a13960a3",
+      "name":"Nail Bar",
+      "opening_hours":{
+         "open_now":true
+      },
+      "photos":[
+         {
+            "height":325,
+            "html_attributions":[
+
+            ],
+            "width":325
+         }
+      ],
+      "rating":3.8,
+      "reference":"CnRqAAAATkGuV5Qs5dr975fdWGAiIlvYYWGJbT6PrFwcVEIhyrEEbifUC7r6L5eCGFEqlVnvxn90EL6ymxDIRpQCpmEUut3CUVHRiQ40jCcWYEDQHt8ijgavJunz-lW6fpuTpwh2XF9jEJqIWwSHBAka7NSKQBIQtnSA-RPp4Xrt8A6BdA96hRoUoobAgGFRm24auCDaa1yXSJmwg9M",
+      "types":[
+         "beauty_salon",
+         "establishment"
+      ],
+      "vicinity":"1524 Chicago Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.045726,
+            "A":-87.67832799999996
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"02d8d5237283777af1823d898a8a8dce7e8d1894",
+      "name":"Salon Texture",
+      "opening_hours":{
+         "open_now":false
+      },
+      "photos":[
+         {
+            "height":333,
+            "html_attributions":[
+
+            ],
+            "width":512
+         }
+      ],
+      "rating":4.5,
+      "reference":"CnRuAAAAgyZfbbuKjPMCGQQOULev1GnUTxcLuTaccKwW8sbg-JLZR3jSi34qBq9VMYsRkecClLh6laSQQ8X-iKIVsFijcVUmQgqzurTi0DexCDcpNWoXSF4CUbumGqXdPC466X9UszIsvULIM-syASuyj3sxXhIQguOMLkIieMV2xXMHVwyGbhoU4H7mdgo_dEWkLhByNgoCQS_zb0o",
+      "types":[
+         "beauty_salon",
+         "health",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"520 Davis St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.046067,
+            "A":-87.68163800000002
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"c33fe471691cb0887ad6301f056c8d5b1d4df023",
+      "name":"Ergo Salon & Spa",
+      "rating":4.3,
+      "reference":"CoQBcgAAAMMYVqVmZrZE7PF44eS7SweuW5CKQAPvybt8B2pr2ePuaInTo8oqLVnQEAUtLhiJ-YSsoYkFBxEYhiiWTKntUP8ymL_g9v-gZ6HkypTobHkw8zSZOW5qTBfD4leyMVmfFcg3GTJxdmutPwu4fHGjG2XxxNxIFaqe-jL0O65YrGQCEhBxyCG2yLkQf47RO2e-4EewGhR_KI6AMdd9wIZpy8lCcco5a2Zpfw",
+      "types":[
+         "beauty_salon",
+         "spa",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"1567 Sherman Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.041101,
+            "A":-87.683022
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"733ab091ca595f6534452fd275c746d268f34d1d",
+      "name":"Red 7 Salon",
+      "opening_hours":{
+         "open_now":false
+      },
+      "photos":[
+         {
+            "height":225,
+            "html_attributions":[
+
+            ],
+            "width":300
+         }
+      ],
+      "reference":"CnRtAAAAvapX_C4YSa46ff9LpKPW2yBjO24nsUeGX39L3k5EgWMgShGiuZwF0zJgnL-9ZgIn1mfslerfT8iNyFYs8TGeeaRbnQMzUW_gWKgzXOcUOzEOjTLOPGWjQxi1E6yVFTEaP3ss_5epi8FApMEkuPt01BIQn5_XQNe9kNVUvj-5i_qCTRoU771aETYSAKygcJwF7elKaGOkzx0",
+      "types":[
+         "beauty_salon",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"816 Dempster St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.046793,
+            "A":-87.68224299999997
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"3a7fe43ba7db621bdc2b8f8c540000476d52dbf5",
+      "name":"Salon Lotus",
+      "reference":"CnRsAAAA930T4JDGW_iJYlGgdkQJhG1TVp_ICMJ9vdWwUTzVVnxiYNgY5HUrWPjodXEP-Kdh4C29LjIMbJqBQl69bnkXUm83uC2Qs7twzL1FjX8wKxBx7nODVZqHgm3FfGdTZWsf2B1517V2C2m9ht9B_VjqHRIQ8EjTp-cimOX017uNm6bNJhoUIGRJ4zOj573VJM03AUUpaIc6_3M",
+      "types":[
+         "beauty_salon",
+         "establishment"
+      ],
+      "vicinity":"808 Davis St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.058341,
+            "A":-87.68416200000001
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+      "id":"4062d95ecef207d04fdcfce89dba67b49d59425b",
+      "name":"Noyes Street Barber Shop",
+      "opening_hours":{
+         "open_now":false
+      },
+      "photos":[
+         {
+            "height":300,
+            "html_attributions":[
+
+            ],
+            "width":400
+         }
+      ],
+      "reference":"CoQBeQAAAIlzUdA303pj-BwTWahyKZSO9rxDDnVRc65JRmK6bT-PcBofCsqGVqnYp_nHa2iiUF2QRsnt0wMM42vLeavvj3Q5lvx-Nl2zEzYS9GoZjpWpXYD4EnwoCsY4l3cgRxnGUv7huh2yUICqKH9DNlQQNFPthLzSjc4FPJ-z0zVusMR7EhCdUokSUer6fJuPQ7TuZhywGhQLTQbcGlfQpjHc08DTVbGFCKCsug",
+      "types":[
+         "health",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"916 Noyes St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.045686,
+            "A":-87.682094
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"89b244e5eb78f03ff4d6c16eb4113ef1469c8d96",
+      "name":"Pivot Point International Academy",
+      "opening_hours":{
+         "open_now":false
+      },
+      "photos":[
+         {
+            "height":576,
+            "html_attributions":[
+
+            ],
+            "width":864
+         }
+      ],
+      "rating":4.6,
+      "reference":"CpQBgwAAAJqHWFGxcbHxPK6G3qiu480xjjyAaNfJ6znpQk5WmTAkdSpin9lBrue5aUkPciEwQllTVWJV3hVXW3EoLer8xxIQZ719a69mEcuj16yTZehHADVAn8xhTGjU7XvT5sIIzKSWSY42NXBHD_-SR9N6MI5mIZ5j0-0mzQIuk3rdoRSPSQzhSCbdaBhJ97C-Na9koxIQI-uSVX0cMsEPE6onU_vknhoUcpcaXQwBeMiEb9WC-xLI5gYb8A8",
+      "types":[
+         "beauty_salon",
+         "spa",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"1560 Sherman Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.04528,
+            "A":-87.68093599999997
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"9f95753a7691e278d605b0f85ce3b80a456a83aa",
+      "name":"J Antou Salon",
+      "reference":"CnRvAAAAhW4xJB57SeXW47SGWAUkE0tOrksCUTVNlVoB-n0Id1UyVE-Ae5bzBjV0aI3vy8NlmY0EqT2pWXacd5iSGNnf8Muss84B85sc8U1HXd-XSGE3mhAh_vTqfYhjfGzmuwbVw-EXSpGAM-O25NykUaSZkhIQNjxw1LIqknTmrZqIfoTXGRoUsNDAbpRetIS5EcgikfmP3equByo",
+      "types":[
+         "beauty_salon",
+         "establishment"
+      ],
+      "vicinity":"625 Grove St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.046664,
+            "A":-87.68483800000001
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+      "id":"575f3aa3a8fecc3e081c50dc20dd1435760cab44",
+      "name":"Jay's Barber Shop",
+      "photos":[
+         {
+            "height":1265,
+            "html_attributions":[
+               "From a Google User"
+            ],
+            "width":949
+         }
+      ],
+      "rating":4.4,
+      "reference":"CoQBcwAAAJBQNmGA1XOLLYqy8lZJBP7i4LWCQA6hMG-UtCIBY8uolr0djbefJ0jw6f9h92tPcbe0M01ur18CSu0CIqpAWQm_GQ-HbbzFIwt-wykfAvQZNMyEnKzoug-89cnkhvshhEoyFpmdIzVILxfytpWbp5vvYmzpFhuRbkV2uoe-IyPEEhA3ySUEWzB-MoifDMwr1vBYGhRY3STVuUu6uNHty1BvVsF058-v5A",
+      "types":[
+         "health",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"1579 Maple Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.047552,
+            "A":-87.68113299999999
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"89c28a542d695e5a1ae30b2959580c910f911bd3",
+      "name":"Vincent & Company Hair Designs",
+      "reference":"CoQBfwAAACwZTYy8DDRWih4VUfxBVPbFIYID5dNhN9gpdPlmn-izsy8TDAocC5IkYzcLDm2sUwHwi-hmun3nj3SRPCVZS2hUf6gksVTYBAXjNj12ZnIRK-lMuFr6A47ZUiCqjh54a73sehu47dvsBkJ8YhezTDh1bl9xwpyOhV6s3KKIgw2jEhCr_DT15Ajo7BwPEYbxUG3kGhQHF2FCpZkWZETgxXulsNYJ3_NhKg",
+      "types":[
+         "beauty_salon",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"1626 Orrington Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.048706,
+            "A":-87.682028
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"337f582aa8024885772258d9c89620ba140f242a",
+      "name":"Hair Cuttery",
+      "opening_hours":{
+         "open_now":true
+      },
+      "rating":4.2,
+      "reference":"CnRtAAAAiiyc8k9xCwTl_2wwidKr8MCtrBZOiFT1Q0R-CY6KFTNAMLbzTAaN7UV5BRVJaYUdCqF6Hg8H4YK3AELKV-Zki99p8BE9urJ8U9IqZw0Oe1KazLb7bDv2OLXdb0jJ5ekEzASErXzjJpZ6yoJj-m2C2xIQgKEQ1HNZArSCwPI25OYPGRoUa28fshVAi08b_rDZZz_A8wLe3eg",
+      "types":[
+         "beauty_salon",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"1704 Sherman Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.045067,
+            "A":-87.68174399999998
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"3d13de0098e7a75ce56e70153a54e5949275dddc",
+      "name":"Salon Lamia",
+      "opening_hours":{
+         "open_now":false
+      },
+      "reference":"CnRtAAAAg2tXHjkomnsVMq4YFkXVFC3E__cjUxcpkV0BoipGYyTDSF1gEg_7UwaGMrZD3mmHiDU9eyub1FuLX9IFnA0Wv644mlE-cDggWMLJ59v_Aw6Zfojw-9pDwkWuS8dW5pe4XHUGMP0KmzAR5eVMg7FnvxIQ2kHnzxoehiTKZwwitLeMkxoUebEnHTgVlr9px0SBtsnN1pUsXu0",
+      "types":[
+         "beauty_salon",
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"1513 Sherman Ave, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.046523,
+            "A":-87.68116800000001
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"c59faf4398e313884607cac19d227925a5c2526b",
+      "name":"Bien Assorti",
+      "reference":"CnRtAAAA__Ev8pV3G2ciNJyNguike7GlNsxbwW5iiPBlwTb3PfbIRp-asNljjoAtEXJAWuzaqwlJ5Q4RVYu6DVSdQEZM7g8d05sg_hSGLsG3wp0J7gJKwWdvwOZmBa_q5U9RYjzUMD9t6hax0oUKZsIQ0T02YRIQI_sHCF07sy1qAYzOQb7NwBoUwWDryb1caJtBMmNfH2zZyb_6YTY",
+      "types":[
+         "beauty_salon",
+         "establishment"
+      ],
+      "vicinity":"626 Davis St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.049819,
+            "A":-87.682977
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+      "id":"c63c561097a7b4c06ae681729a6ad0216ab3b7ce",
+      "name":"Sport Clips Evanston",
+      "opening_hours":{
+         "open_now":true
+      },
+      "photos":[
+         {
+            "height":221,
+            "html_attributions":[
+
+            ],
+            "width":369
+         }
+      ],
+      "reference":"CoQBdgAAADrVCa_7t-KHu28ScWrC8yr6B3H45Yxxpg2TQSkUsxv5G0Zvg-t_63RlYFGR9O7EI0w-NAIJIyQRUhu36jPEpOEKFFAZzRQvsCfOtUD3qr468srsBUd03X9vvH69na6Ah-NQ7hpM98ym8goz9_dDKUgHRj5Qwg-wTczh82BFSem_EhD9oSm3enkU_QIV9NIEGAyTGhTGPk3o7WFNHW9HPPZJQIxTZYysSA",
+      "types":[
+         "hair_care",
+         "establishment"
+      ],
+      "vicinity":"822 Clark St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.046906,
+            "A":-87.683335
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"f210f28997c4cebf72b4f55238eb649672f89c0a",
+      "name":"Serenity Nails Spa Inc",
+      "opening_hours":{
+         "open_now":true
+      },
+      "reference":"CoQBdwAAAEGGDG9xSUIqA3cO2tsEoxJJHqrII_5fRUIjNVZEY1PveNNXMxcR7dPMwuC3k5nfZY6awdbxMXsarrJXccCd7YTV4Su_CfQBs5FXlGFfgH6_21SxddBfhVNiKHE3wRAiHX2j5mgV7dDlp1Vis0itXXLKf_J08r4UsKb-5GsLhZU1EhA6RHzFpPhZDWG0yNSnqe12GhQbvWzsmHdrr-6cgIUfO9Ugja895g",
+      "types":[
+         "beauty_salon",
+         "establishment"
+      ],
+      "vicinity":"830 Davis St, Evanston",
+      "html_attributions":[
+
+      ]
+   },
+   {
+      "geometry":{
+         "location":{
+            "k":42.048044,
+            "A":-87.68026800000001
+         }
+      },
+      "icon":"http://maps.gstatic.com/mapfiles/place_api/icons/barber-71.png",
+      "id":"0fe92674268910f32c584c6dd6b91ee76358b2c1",
+      "name":"Fashion Nails 3",
+      "reference":"CoQBcQAAAAVyPOKEPESgz_Ectokwlm6Uvk2R7Q4cWMN07Y4z9INdmmQw5QWzrm8MAApt0Ubo-JsvYtKkblL_cViw1BccV83spBcYhZD0gVTlNjd1zZ2X88cuS8v6YoL5_Gpk5thtCKgcdfH9O9mLS-QycD9PDI6SQukqHmTItYA43ltdm2kMEhD8Tra1e7sIhi4dZZj4HLJMGhRRreg7f6ek7LD6tVxuJ60iN70-qQ",
+      "types":[
+         "beauty_salon",
+         "establishment"
+      ],
+      "vicinity":"628 Church St, Evanston",
+      "html_attributions":[
+
+      ]
+   }
+]

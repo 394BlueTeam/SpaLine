@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <!-- files to be loaded first -->
+        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <title>Spotlight</title>
+        <link rel="stylesheet" href="css/style.css">
+        <!--<script type="text/javascript" src="JS/salon.js"></script>-->
+
+        <script type="text/javascript">
+        Parse.initialize("o6UHd0P7UT2nyRw8Djmz8YwxG6copYOr2DjhGpoA", "1WDfNgPeu4d8Qc9bHyeNMVOPkvBVQ7mmYLnu53pD");
+        
+        var Salons = Parse.Object.extend("Salons");
+        var query = new Parse.Query(Salons);
+        /*
+        query.find({
+                success: function(results) {
+                alert("Successfully retrieved " + results.length + " scores.");
+                // Do something with the returned Parse.Object values
+                handleData(results);
+            },
+            error: function(error) {
+                alert("Error: " + error.code + " " + error.message);
+            }
+        });
+        */
+        var counter = 0;
+    query.find({
+    success: function(results) {
+    var q = $('#query');
+    for (var i=0;i < results.length;i++){
+      var Address = results[i].get('Address');
+      //Address.setHours(tripdate.getHours()+5);
+      console.log(Address);
+      //tripdate = String(tripdate);
+      //tripdate = tripdate.substr(0, 15);
+      var WeekdayOpenTime = results[i].get('WeekdayOpenTime');
+      var SaturdayOpenTime = results[i].get('SaturdayOpenTime');
+      var SundayOpenTime = results[i].get('SundayOpenTime');
+      //time = time.concat(" " + am_pm);
+      //console.log(time);
+      //var driver = results[i].get('Name');
+      //var seats = results[i].get('OpenSeats');
+      counter += 1;
+      // var btn1 = "<a href='#'><i class='fa fa-link btn-email'>  connect with driver</i></a>";
+      // var btn2 = "<a href='#' id='join' onclick='badgesystem();'><i class='fa fa-plus-square btn-sign'>  join ride</i></a>";
+      var btn2 = ""
+     
+      q.append(
+        '<div class="Salon" data-Address="'
+        +Address+
+        '"data-WeekdayOpenTime="'
+        +WeekdayOpenTime+
+        '"data-WeekdayCloseTime="'
+        +results[i].get('WeekdayOpenTime')+
+        '">'+
+
+        '<div class="count">'+counter+'</div>'+
+        '<p class="Address"> <span>Address:</span>'+
+        Address+
+        '</p>'+
+        '<p class="WeekdayOpenTime"> <span>Open Time:</span>'+
+        WeekdayOpenTime+
+        '</p>'+
+        '<p class="SaturdayOpenTime">Open Time:<span> </span>'+
+        SaturdayOpenTime+
+        '</p>'+
+        '<p class="SundayOpenTime">Open Time:<span>Open Time:</span>'+
+        SundayOpenTime+
+        '</p>'
+
+        //display picture of the salons here(after we get the pictures):
+        //<img src="w3schools.jpg" alt="W3Schools.com" width="104" height="142">
+        );
+    }
+  }
+});
+
+
+
+
+
+
+
+
+        /*
+        function handleData(results){
+
+            var str = "";
+            for (var i = 0;i<results.length;i++){
+                str =results[i].get("Address")+str+"\n";
+                //document.getElementById("query").innerHTML = str+"\n";
+
+            }
+            //alert(str);
+            document.getElementById("query").innerHTML = str+"\n";
+
+        }
+        */
+          // FAST CLICK CODE
+        </script>
+    </head>
+
+
+    <body>
+    	<div id="salon list">
+    		<h2>salon list</h2>
+    	</div>
+
+    	<div id="find-your-salon">
+    		<p>find your salon</p>
+    	</div>
+
+        <p>Salon list: </p>   
+        <div id="query"></div>
+        </div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </body>
+</html>

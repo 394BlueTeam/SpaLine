@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <!-- files to be loaded first -->
+        <script src="js/jquery-1.11.0.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
+        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        
+        <title>SpaLine</title>
+
+        <link rel="stylesheet" href="CSS/style.css" />
+        <link rel="stylesheet" href="plugins/FontAwesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css" />
+    </head>
+    
+    <body>
+        
+        <!-- HEADER -->
+        <div class="header">
+            <h1>Hair Cuttery
+                <span>
+                    <!-- <a href="index.html" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+                    <a href="#" id="menu"><i class="fa fa-bars fa-lg"></i></a> -->
+                </span>
+            </h1> 
+
+            <div class="btn-group btn-group-justified" style="position: fixed; bottom: 0;">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default active" id="stylists" style="height: 50px;">Stylists</button>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="services" style="height: 50px;">Services</button>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default" id="reviews" style="height: 50px;">Reviews</button>
+                </div>
+            </div>
+
+          <!--   <nav class="navbar navbar-default navbar-fixed-bottom btn-group" role="navigation" >
+                <div class="container">
+                    <ul class="nav navbar-nav">
+                        <li><a href="#"></a></li>
+                        <li><a href="#">Services</a>
+                        <li><a href="#">Reviews</a></li>
+                    </ul>
+                </div> 
+            </nav>    -->
+        </div>
+
+        <!-- CONTENT -->
+        <div class="wrapper">
+            <div class="stylists">
+                <div class="info">
+                    <div class="quick-info">
+                        <h2 class="name">Hair Cuttery</h2>
+                        <h5 class="type">hair salon, spa</h5>
+                        <p class="stars"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
+                        <p class="price">Price Range: <i class="fa fa-usd"></i></p>
+                    </div>
+
+                    <div class="location">
+                        <h3 class="divider">Location</h3>
+                        <h5>State Place SC</h5>
+                        <h5>1103 S State St.</h5>
+                        <h5>Chicago, IL 60605</h5>
+                        <h5>312-235-0348</h5>
+                    </div>
+
+                    <div class="details">
+                        <h3 class="divider">Details</h3>
+                        <h5>Mon - Fri: 09:00 AM - 09:00 PM</h5>
+                        <h5>Sat: 08:00 AM - 08:00 PM</h5>
+                        <h5>Sun: 09:00 AM - 05:00 PM</h5>
+                    </div>
+
+                    <div class="list-stylists">
+                        <h3 class="divider">Stylists</h3>
+                        
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Harvey Specter</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="list-btns">
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery&address=Northwest Shopping Center, 527 E. Dundee Road, Palatine, IL 60074'>9:00 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Olivia Pope</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="list-btns">
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>9:00 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Arya Stark</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="list-btns">
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>9:00 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Jon Snow</h3>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="list-btns">
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>9:00 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>10:30 am</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=12:00 PM&date=6/8/14&salon=Hair Cuttery'>12:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>2:00 pm</a></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=3:00 PM&date=6/8/14&salon=Hair Cuttery'>3:00 pm</a></button></button>
+                                    <button type="button" class="btn btn-primary .btn-sm"><a class="button" href='reservation.html?time=5:00 PM&date=6/8/14&salon=Hair Cuttery'>5:00 pm</a></button></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- available services -->
+            <div class="services">
+                <p>
+                    We offer a wide variety of services for the entire family from cuts, style and color to texture, value packages and waxing that will give you a new attitude and a guarantee that you’ll be extremely happy about your visit with us.
+                </p>
+                <table class="table table-condensed">
+                    <tr>
+                        <th>CUT & STYLE</th>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut</td>
+                        <td class="active">$17</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut- children 8 and under</td>
+                        <td class="active">$12</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut, blowdry</td>
+                        <td class="active">$24</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut, blowdry- children 8 and under</td>
+                        <td class="active">$19</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, blowdry</td>
+                        <td class="active">$17</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, blowdry straightening</td>
+                        <td class="active">$27</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, basic set</td>
+                        <td class="active">$17</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, designer set</td>
+                        <td class="active">$37 and up</td>
+                    </tr>
+                    <tr>
+                        <td>special occasion design</td>
+                        <td class="active">$30 and up</td>
+                    </tr>
+                    <tr>
+                        <td>quick do's</td>
+                        <td class="active">$20</td>
+                    </tr>
+                </table>
+
+                <table class="table table-condensed">
+                    <tr>
+                        <th>COLOR</th>
+                    </tr>
+                    <tr>
+                        <td>single application color</td>
+                        <td class="active">$45</td>
+                    </tr>
+                    <tr>
+                        <td>partial highlights</td>
+                        <td class="active">$50</td>
+                    </tr>
+                    <tr>
+                        <td>full highlights</td>
+                        <td class="active">$80</td>
+                    </tr>
+                    <tr>
+                        <td>Redken Color Camo for Men</td>
+                        <td class="active">$25</td>
+                    </tr>
+                    <tr>
+                        <td>additional color</td>
+                        <td class="active">$20</td>
+                    </tr>
+                    <tr>
+                        <td>Double Dimension Color w/ Full Highlights</td>
+                        <td class="active">$125</td>
+                    </tr>
+                    <tr>
+                        <td>Double Dimension Color w/ Partial Highlights</td>
+                        <td class="active">$95</td>
+                    </tr>
+                </table>
+
+                <table class="table table-condensed">
+                    <tr>
+                        <th>VALUE PACKAGES</th>
+                    </tr>
+                    <tr>
+                        <td>Style Express</td>
+                        <td class="active">$31</td>
+                    </tr>
+                    <tr>
+                        <td>Color Escape</td>
+                        <td class="active">$69</td>
+                    </tr>
+                    <tr>
+                        <td>Color Camo for Men</td>
+                        <td class="active">$45</td>
+                    </tr>
+                    <tr>
+                        <td>Shape Up</td>
+                        <td class="active">$41</td>
+                    </tr>
+                    <tr>
+                        <td>City Lights</td>
+                        <td class="active">$104</td>
+                    </tr>
+                    <tr>
+                        <td>Touch of Color</td>
+                        <td class="active">$74</td>
+                    </tr>
+                    <tr>
+                        <td>Double Dimension Color w/ Partial Highlights(12 MAX)</td>
+                        <td class="active">$119</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- reviews -->
+            <div class="reviews">
+                <p>Reviews are coming from Google Places API</p>
+            </div>
+
+            <!-- <div class="salon">
+                <h1></h1>
+                <div class="indent">
+                    <h2>Available Times:</h2>
+                    <p>6/8 - 9:00 AM</p><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>Book</a>
+                    <p>6/8 - 10:30 AM</p><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>Book</a>
+                    <p>6/8 - 2:00 PM</p><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>Book</a>
+                </div>
+            </div> -->
+
+        </div>
+
+        <script type="text/javascript">
+            $( "#stylists" ).click(function() {
+                $("div.reviews").hide();
+                $("div.services").hide();
+                $("div.stylists").show();
+            });
+
+            $( "#reviews" ).click(function() {
+                $( "#stylists" ).removeClass( "active" );
+                $("div.stylists").hide();
+                $("div.services").hide();
+                $("div.reviews").show();
+            });
+
+            $( "#services" ).click(function() {
+                $( "#stylists" ).removeClass( "active" );
+                $("div.reviews").hide();
+                $("div.stylists").hide();
+                $("div.services").show();
+            });
+        </script>
+    </body>
+</html>
