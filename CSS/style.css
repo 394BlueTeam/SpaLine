@@ -1,0 +1,456 @@
+@charset "UTF-8";
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    /*padding: 0 25px;*/
+    /*margin: auto;*/
+    -webkit-tap-highlight-color: rbga(255, 255, 255, 0); 
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+h2, p, ol, ul, li {
+    margin:0px;
+    padding:0px;
+}
+
+/*a {
+	color: #0d1eff !important;
+	text-decoration: none;
+}*/
+
+.header {
+    background-color: #f1f1f1;
+    top:0;
+    margin:0;
+    padding:0;
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    color: black;
+    z-index: 3;
+}
+
+.header > h1 {
+    text-align: center;
+    line-height: 3em;
+    margin:0;
+    display: block;
+    font-size: 80%;
+    letter-spacing: 3px;
+    font-size: 0.8em;
+}
+
+.header > h1 > span {
+    font-size: 1.5em;
+    text-decoration: none;
+    line-height: 2.1em;
+}
+
+.header > h1 > span > a {
+    text-decoration: none;
+    color: white !important;
+}
+
+.header > h1 > span > p{
+    font-size: 45%;
+    margin:0;
+    padding:0;
+    line-height: 0;
+    text-transform: uppercase;
+    letter-spacing: 0px;
+}
+
+#back {
+    float: left;
+    margin-left: 3%;
+    color: black !important;
+}
+
+
+.wrapper {
+	margin-top: 50px;
+	margin-left: 7%;
+	margin-right: 7%;
+	margin-bottom: 60px;
+}
+
+.row {
+	/*border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;*/
+	margin-left:0 !important;
+	margin-right:0 !important;
+	padding-top: 13px;
+}
+
+.table-condensed>thead>tr>th, 
+.table-condensed>tbody>tr>th, 
+.table-condensed>tfoot>tr>th, 
+.table-condensed>thead>tr>td, 
+.table-condensed>tbody>tr>td, 
+.table-condensed>tfoot>tr>td {
+	border-top: none !important;
+	border-bottom: 1px solid #ddd !important;
+}
+
+.table-condensed>tbody>tr>td {
+	text-align: left;
+	padding-left: 30px !important;
+}
+
+.list-btns {
+	overflow-x:scroll;
+	color: white;
+	width: 100%;
+	white-space: nowrap;
+}
+
+/*.list-btns > button {
+	float: left;
+}*/
+
+.list-btns > button > a {
+	color: white !important;
+	text-transform: none !important;
+}
+
+.panel-body {
+	height: 60px;
+	overflow: hidden;
+}
+
+.jumbotron {
+	/*padding: 0 !important;*/
+}
+
+
+/*----------------------------- landing page -----------------------------*/
+/*========================================================================*/
+
+	#landing-header {
+		position: fixed;
+		top:0;
+		left:0;
+		width: 100%;
+		height: 100%;
+		background: url(../images/spa6.jpg) no-repeat center center fixed;
+		background-size: cover;
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		margin: auto;
+	}
+
+	#landing-overlay {
+		background: black;
+		width: 100%;
+		height: 100%;
+		background: rgba(39,62,84,0.82);
+		overflow: hidden;
+		z-index: 2;
+		position: absolute;
+	}
+
+	#landing-footer > p {
+        font-size: 1.5em;
+		text-align: center;
+        margin: 0;
+        color: black;
+    }
+
+    #cursive {
+        font-family: 'Alex Brush', 'cursive';
+        font-size: 1.4em !important;
+        text-align: center;
+    }
+
+	#find-a-salon{
+		text-align: center;
+		margin: auto;
+		font-size:2em;
+		background-color: blue;
+		width:25%;
+	}
+
+	#main-btns {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-top: -50px;
+		margin-left: -100px;
+	}
+
+	#main-btns > a {
+		text-decoration: none;
+		color: black;
+	}
+
+	.landing-title {
+		color: white;
+		font-weight: 400;
+		font-size: 3.5em;
+		padding: 0;
+		margin: 0;
+	}
+
+	.mini {
+		padding: 10px 0 10px 0;
+		color: white;
+		font-size: 0.8em;
+		letter-spacing: 3px;
+		clear: both;
+	}
+
+	.sb-search {
+		position: relative;
+		margin-top: 10px;
+		width: 0%;
+		min-width: 60px;
+		height: 60px;
+		float: right;
+		overflow: hidden;
+		-webkit-transition: width 0.3s;
+		-moz-transition: width 0.3s;
+		transition: width 0.3s;
+		-webkit-backface-visibility: hidden;
+	}
+
+	.sb-search-input {
+		position: absolute;
+		top: 0;
+		right: 0;
+		border: none;
+		outline: none;
+		background: #fff;
+		width: 100%;
+		height: 60px;
+		margin: 0;
+		z-index: 10;
+		padding: 20px 65px 20px 20px;
+		font-family: inherit;
+		font-size: 20px;
+		color: #2c3e50;
+	}
+
+	.sb-search-input::-webkit-input-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-search-input:-moz-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-search-input::-moz-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-search-input:-ms-input-placeholder {
+		color: rgba(39,62,84,0.82);
+	}
+
+	.sb-icon-search,
+	.sb-search-submit  {
+		width: 60px;
+		height: 60px;
+		display: block;
+		position: absolute;
+		right: 0;
+		top: 0;
+		padding: 0;
+		margin: 0;
+		line-height: 60px;
+		text-align: center;
+		cursor: pointer;
+	}
+
+	.sb-search-submit {
+		background: #fff; /* IE needs this */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* IE 8 */
+	    filter: alpha(opacity=0); /* IE 5-7 */
+	    opacity: 0;
+		color: transparent;
+		border: none;
+		outline: none;
+		z-index: -1;
+	}
+
+	.sb-icon-search {
+		color: black;
+		background: white;
+		z-index: 90;
+		font-size: 22px;
+		speak: none;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.sb-icon-search:before {
+		content: "\f002";
+		font-family: FontAwesome;
+	}
+
+	/* Open state */
+	.sb-search.sb-search-open,
+	.no-js .sb-search {
+		width: 100%;
+	}
+
+	.sb-search.sb-search-open .sb-icon-search,
+	.no-js .sb-search .sb-icon-search {
+		background: white;
+		color: black;
+		z-index: 11;
+	}
+
+	.sb-search.sb-search-open .sb-search-submit,
+	.no-js .sb-search .sb-search-submit {
+		z-index: 90;
+	}
+
+/*----------------------------- find a salon -----------------------------*/
+/*========================================================================*/
+
+	/*.address {
+		float: left;
+	}
+
+	.distance {
+		float: right;
+	}
+
+	.rating {
+		clear: both;
+		float: left;
+	}
+
+	.cost {
+		float: right;
+	}
+
+	.times {
+		clear: both;
+	}*/
+
+
+/*==========Salon Results=========*/
+
+.stylists {
+	display: block;
+}
+
+
+
+.info {
+	text-align: left;
+}
+
+.quick-info {
+	margin-top: 10%;
+}
+
+.name {
+	font-weight: 700;
+}
+
+.quick-info > h2, .quick-info > h5, .quick-info > p {
+	padding: 0 !important;
+	margin: 0 !important;
+}
+
+.divider {
+	font-weight: 700;
+	border-bottom: 1px solid #ddd;
+}
+
+.location, .details, .list-stylists {
+	margin-top: 40px;
+}
+.services {
+	display: none;
+}
+
+.reviews {
+	display: none;
+	text-align: left;
+}
+
+#salon-results-heading{
+	width: 100%;
+	margin: auto;
+	text-align: center;
+	font-size: 3.5em;
+}
+
+.salon-result{
+	text-align: center;
+	margin: auto;
+	background-color: blue;
+	width:80%;
+}
+
+.result-image{
+	margin: auto;
+	right: 15%;
+	display: inline;
+}
+
+.salon-result-info{
+	display: inline;
+	margin: auto;
+	width: 100%;
+}
+
+.media-object {
+	width: 65px;
+	height: 65px;
+}
+
+.img-circle {
+	width: 64px;
+}
+
+/*==========Reservation Form Page=============*/
+#reservation-submit{
+	margin: auto;
+	background-color: blue;
+	width: 30%;
+}
+
+#reservation-header{
+	margin: auto;
+	text-align: center;
+	font-size: 2.5em;
+}
+
+#reservation-form-div{
+	margin: auto;
+	text-align: center;
+}
+
+/*=====SALON=====*/
+.salon{
+	width:90%;
+	margin:0 auto; 
+}
+
+#salonList > li{
+	width: 100%;
+}
+.indent{
+	margin-left: 20px;
+}

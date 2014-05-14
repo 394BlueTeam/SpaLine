@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+        <!-- files to be loaded first -->
+        <script src="js/jquery-1.11.0.min.js"></script>
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
+        <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+        <script type="text/javascript" src="JS/salongeneration.js"></script>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        
+        <title>SpaLine</title>
+
+        <link rel="stylesheet" href="CSS/style.css" />
+        <link rel="stylesheet" href="plugins/FontAwesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css" />
+    </head>
+    
+    <body>
+    	<div id="map-canvas"></div> 
+        
+        <!-- HEADER -->
+        <div class="header"></div>
+
+        <div class="btn-group btn-group-justified" style="position: fixed; bottom: 0;">
+            <div class="btn-group">
+                <button type="button" class="btn btn-default active" id="stylists" style="height: 50px;">Stylists</button>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" id="services" style="height: 50px;">Services</button>
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-default" id="reviews" style="height: 50px;">Reviews</button>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="wrapper">
+
+            <!-- stylists -->
+            <div class="stylists">
+                <div class="info">
+                    <div class="quick-info"></div>
+
+                    <div class="location"></div>
+
+                    <div class="details"></div>
+
+                    <div class="list-stylists"></div>
+                </div>
+            </div>
+
+            <!-- available services -->
+            <div class="services">
+                <p>
+                    We offer a wide variety of services for the entire family from cuts, style and color to texture, value packages and waxing that will give you a new attitude and a guarantee that you’ll be extremely happy about your visit with us.
+                </p>
+                <table class="table table-condensed">
+                    <tr>
+                        <th>CUT & STYLE</th>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut</td>
+                        <td class="active">$17</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut- children 8 and under</td>
+                        <td class="active">$12</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut, blowdry</td>
+                        <td class="active">$24</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, cut, blowdry- children 8 and under</td>
+                        <td class="active">$19</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, blowdry</td>
+                        <td class="active">$17</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, blowdry straightening</td>
+                        <td class="active">$27</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, basic set</td>
+                        <td class="active">$17</td>
+                    </tr>
+                    <tr>
+                        <td>shampoo, designer set</td>
+                        <td class="active">$37 and up</td>
+                    </tr>
+                    <tr>
+                        <td>special occasion design</td>
+                        <td class="active">$30 and up</td>
+                    </tr>
+                    <tr>
+                        <td>quick do's</td>
+                        <td class="active">$20</td>
+                    </tr>
+                </table>
+
+                <table class="table table-condensed">
+                    <tr>
+                        <th>COLOR</th>
+                    </tr>
+                    <tr>
+                        <td>single application color</td>
+                        <td class="active">$45</td>
+                    </tr>
+                    <tr>
+                        <td>partial highlights</td>
+                        <td class="active">$50</td>
+                    </tr>
+                    <tr>
+                        <td>full highlights</td>
+                        <td class="active">$80</td>
+                    </tr>
+                    <tr>
+                        <td>Redken Color Camo for Men</td>
+                        <td class="active">$25</td>
+                    </tr>
+                    <tr>
+                        <td>additional color</td>
+                        <td class="active">$20</td>
+                    </tr>
+                    <tr>
+                        <td>Double Dimension Color w/ Full Highlights</td>
+                        <td class="active">$125</td>
+                    </tr>
+                    <tr>
+                        <td>Double Dimension Color w/ Partial Highlights</td>
+                        <td class="active">$95</td>
+                    </tr>
+                </table>
+
+                <table class="table table-condensed">
+                    <tr>
+                        <th>VALUE PACKAGES</th>
+                    </tr>
+                    <tr>
+                        <td>Style Express</td>
+                        <td class="active">$31</td>
+                    </tr>
+                    <tr>
+                        <td>Color Escape</td>
+                        <td class="active">$69</td>
+                    </tr>
+                    <tr>
+                        <td>Color Camo for Men</td>
+                        <td class="active">$45</td>
+                    </tr>
+                    <tr>
+                        <td>Shape Up</td>
+                        <td class="active">$41</td>
+                    </tr>
+                    <tr>
+                        <td>City Lights</td>
+                        <td class="active">$104</td>
+                    </tr>
+                    <tr>
+                        <td>Touch of Color</td>
+                        <td class="active">$74</td>
+                    </tr>
+                    <tr>
+                        <td>Double Dimension Color w/ Partial Highlights(12 MAX)</td>
+                        <td class="active">$119</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- reviews -->
+            <div class="reviews"></div>
+
+            <!-- <div class="salon">
+                <h1></h1>
+                <div class="indent">
+                    <h2>Available Times:</h2>
+                    <p>6/8 - 9:00 AM</p><a class="button" href='reservation.html?time=9:00 AM&date=6/8/14&salon=Hair Cuttery'>Book</a>
+                    <p>6/8 - 10:30 AM</p><a class="button" href='reservation.html?time=10:30 AM&date=6/8/14&salon=Hair Cuttery'>Book</a>
+                    <p>6/8 - 2:00 PM</p><a class="button" href='reservation.html?time=2:00 PM&date=6/8/14&salon=Hair Cuttery'>Book</a>
+                </div>
+            </div> -->
+
+        </div>
+
+        <script type="text/javascript">
+            $( "#stylists" ).click(function() {
+                $("div.reviews").hide();
+                $("div.services").hide();
+                $("div.stylists").show();
+            });
+
+            $( "#reviews" ).click(function() {
+                $( "#stylists" ).removeClass( "active" );
+                $("div.stylists").hide();
+                $("div.services").hide();
+                $("div.reviews").show();
+            });
+
+            $( "#services" ).click(function() {
+                $( "#stylists" ).removeClass( "active" );
+                $("div.reviews").hide();
+                $("div.stylists").hide();
+                $("div.services").show();
+            });
+        </script>
+    </body>
+</html>
