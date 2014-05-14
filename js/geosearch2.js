@@ -1,27 +1,22 @@
 var map;
+var initialLocation;
 var infowindow;
+var evanston = new google.maps.LatLng(42.053317, -87.672788);
 
 function initialize() {
   var mapOptions = {
     zoom: 6
   };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
 
-  // Try HTML5 geolocation
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  /*=== Get the user's location ===*/
   if(navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = new google.maps.LatLng(position.coords.latitude,
+      initialLocation = new google.maps.LatLng(position.coords.latitude,
                                        position.coords.longitude);
-
-      var infowindow = new google.maps.InfoWindow({
-        map: map,
-        position: pos,
-        content: 'Location found using HTML5.'
-      });
-      console.log(pos);
-      map.setCenter(pos);
-      places(pos);
+      console.log(initialLocation);
+      map.setCenter(initialLocation);
     }, function() {
       handleNoGeolocation(true);
     });
@@ -29,41 +24,27 @@ function initialize() {
     // Browser doesn't support Geolocation
     handleNoGeolocation(false);
   }
-}
 
-function handleNoGeolocation(errorFlag) {
-  if (errorFlag) {
-    var content = 'Error: The Geolocation service failed.';
-  } else {
-    var content = 'Error: Your browser doesn\'t support geolocation.';
-  }
-
-  var options = {
-    map: map,
-    position: new google.maps.LatLng(60, 105),
-    content: content
-  };
-
-  var infowindow = new google.maps.InfoWindow(options);
-  map.setCenter(options.position);
-}
-
-
-
-function places(coords) {
-  map = new google.maps.Map(document.getElementById('map-canvas'), {
-    center: coords,
-    zoom: 15
-  });
-
+  /*=== Create a places request ===*/
   var request = {
-    location: coords,
+    location: initialLocation,
     types: ['hair_care'],
     rankBy: google.maps.places.RankBy.DISTANCE
   };
 
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, callback);
+}
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed. Default to Evanston, IL.';
+    initialLocation = evanston;
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  map.setCenter(initialLocation);
 }
 
 function callback(results, status) {
