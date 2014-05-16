@@ -212,11 +212,17 @@ function getStylistsAppointments(salon_name, salon_address, hours, stylists, dat
 	var appointments = [];
 	var resultstr = "";
 	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ date+"</h3>";
+	var dateEles = date.split("/");
+	var todayStart = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
+	var todayEnd = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
+	todayEnd.setDate(todayEnd.getDate()+1);
 	if(db)
 	{
 		var appointmentQuery = new Parse.Query('Appointments');
 		var stylist_ids = createStylistIDArray(stylists);
 		appointmentQuery.containedIn("StylistID", stylist_ids);
+		appointmentQuery.greaterThan("Time", todayStart);
+		appointmentQuery.lessThan("Time", todayEnd);
 		appointmentQuery.find({
 			success: function(appointments){
 				for(var i = 0; i < stylists.length; i++)

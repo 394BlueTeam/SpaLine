@@ -176,7 +176,6 @@ function bookAppointment(){
 	});
 }
 
-
 function populateReservationInfo(){
 	var x = $('.jumbotron');
 	var name = getURLParams('salon');
