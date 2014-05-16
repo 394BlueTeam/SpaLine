@@ -38,13 +38,14 @@ function generateSalonPage(salon, status){
 		insertPageHeader(salon.name);
 		insertQuickInfo(salon.name, salon.types, salon.user_ratings_total, salon.price_level, salon.website)
 		insertLocationInfo(salon.formatted_address, salon.formatted_phone_number);
-		if(salon.opening_hours.periods)
+		if(salon.opening_hours)
 		{
 			insertHoursInfo(salon.opening_hours.periods);
 			getStylists(salon.name, salon.formatted_address, salon.opening_hours.periods, salonID);
 		}
 		else
 		{
+			console.log("else");
 			promptToCall();
 		}
 		if(salon.reviews)
@@ -533,8 +534,9 @@ function getURLParams(sParam){
 }
 
 function promptToCall(){
-	var x = $('list-stylists');
-	x.append("<h3>Sorry, it doesn't look like we have store hours for this salon. Try giving them a call</h3>");
+	var x = $('.list-stylists');
+	x.append("<h3>Sorry, it doesn't look like we have store hours for this salon.</h3>");
+	x.append("<p>Try giving them a call to see when you can book an appointment.</p>");
 }
 
 $(document).ready(function(){ getPlaceDetails();});
