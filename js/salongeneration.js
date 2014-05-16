@@ -33,7 +33,7 @@ function generateSalonPage(salon, status){
 	if(status == google.maps.places.PlacesServiceStatus.OK)
 	{
 		salonID = salon.id;
-		storeSalonID(salonID);
+		storeSalonID(salonID, refNumber, salon.name, salon.formatted_address);
 		console.log(salon);
 		insertPageHeader(salon.name);
 		insertQuickInfo(salon.name, salon.types, salon.user_ratings_total, salon.price_level, salon.website)
@@ -59,9 +59,12 @@ function generateSalonPage(salon, status){
 	}
 }
 
-function storeSalonID(ref){
+function storeSalonID(id, ref, name, address){
 	var jsonObj = {
-					salonid: String(ref)
+					salonid: String(id),
+					name: String(name),
+					address: String(address),
+					reference: String(ref)
 				  };
 
 	Parse.Cloud.run('storeSalonID', jsonObj, {
