@@ -5,6 +5,7 @@ var infowindow;
 var initialLocation;
 var browserSupportFlag =  new Boolean();
 var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var refNumber;
 var salonID;
 
@@ -218,7 +219,10 @@ function getStylistsAppointments(salon_name, salon_address, hours, stylists, dat
 	var x = $('.list-stylists');
 	var appointments = [];
 	var resultstr = "";
-	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ date+"</h3>";
+	var today = new Date();
+	today.setDate(today.getDate()+1);
+	var day = today.getDay();
+	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ dayNames[day] +", "+ date+"</h3>";
 	var dateEles = date.split("/");
 	var todayStart = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
 	var todayEnd = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
@@ -272,25 +276,26 @@ function insertStylistInfo(salon_name, salon_address, hours, stylist, appointmen
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
 	headerstr += "<h3 class=\"panel-title\">"+stylist+"</h3></div>";
 
+	today.setDate(today.getDate()+1);
 	today = today.getDay();
 
-	var todaysHours = getTodaysHours(today, sortedHours);
-	if(todaysHours < 0)
+	var todaysIndex = getTodaysIndex(today, sortedHours);
+	if(todaysIndex < 0)
 	{
 		availableAppoints = buttonStr + "Sorry, this person is not taking appointments today.</button>"
 	}
 	else
 	{
-		availableAppoints = generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, todaysHours);
+		availableAppoints = generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, todaysIndex);
 	}
 
 	var resultstr =  headerstr + appointHeaderStr + availableAppoints + "</div></div></div>";
 	x.append(resultstr);
 }
 
-//returns the hours object if the salon is open
+//returns the hours object index if the salon is open
 //returns -1 if it is colosed
-function getTodaysHours(today, hours){
+function getTodaysIndex(today, hours){
 	var day = -1;
 	for(i = 0; i < hours.length; i++)
 	{
