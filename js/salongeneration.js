@@ -52,6 +52,10 @@ function generateSalonPage(salon, status){
 		{
 			insertReviews(salon.reviews);
 		}
+		else
+		{
+			noReviewsAvailable();
+		}
 	}
 	else
 	{
@@ -546,6 +550,12 @@ function promptToCall(){
 	var x = $('.list-stylists');
 	x.append("<h3>Sorry, it doesn't look like we have store hours for this salon.</h3>");
 	x.append("<p>Try giving them a call to see when you can book an appointment.</p>");
+}
+
+function noReviewsAvailable(){
+	var x = $('.reviews');
+	x.append("<h2>Sorry, there are no reviews available at this time</h2>");
+	x.css('text-align', "center");
 }
 
 $(document).ready(function(){ getPlaceDetails();});
