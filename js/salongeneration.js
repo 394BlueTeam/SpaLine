@@ -9,6 +9,7 @@ var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
 var refNumber;
 var salonID;
 
+//get place details from google places api call
 function getPlaceDetails(){
 	refNumber = getURLParams('ref');
 	var request = { "reference": String(refNumber) };
@@ -30,6 +31,8 @@ function callback(results, status){
 	return 1;
 }
 
+//main function for generating the salon page
+//calls all the functions that fill in the various parts
 function generateSalonPage(salon, status){
 	if(status == google.maps.places.PlacesServiceStatus.OK)
 	{
@@ -64,6 +67,7 @@ function generateSalonPage(salon, status){
 	}
 }
 
+//calls the Parse cloud function to store salon id, ref, name, address
 function storeSalonID(id, ref, name, address){
 	var jsonObj = {
 					salonid: String(id),
@@ -84,11 +88,13 @@ function storeSalonID(id, ref, name, address){
 	});
 }
 
+//appends the page header
 function insertPageHeader(name){
 	var x = $('.header');
 	x.append("<h1 id='title'>"+name+"<span><a href='results.html' id='back'><i class='fa fa-chevron-left fa-lg'></i></a></span></h1>");
 }
 
+//inserts the quick info section of the salon page
 function insertQuickInfo(name, type, rating, price, url){
 	var x = $('.quick-info');
 	var namestr = "<h2 class=\"name\">"+name+"</h2>";
@@ -127,6 +133,7 @@ function insertQuickInfo(name, type, rating, price, url){
 	x.prepend(resultstr);
 }
 
+//inserts the location info section of the salon page
 function insertLocationInfo(address, phone){
 	var x = $('.location');
 	var headerstr = "<h3 class='divider'>Location</h3>";
@@ -136,6 +143,7 @@ function insertLocationInfo(address, phone){
 	x.prepend(resultstr);
 }
 
+//inserts the store hours into the salon page
 function insertHoursInfo(hoursArray){
 	var x = $('.details');
 	var headerstr = "<h3 class=\"divider\">Details</h3>";
@@ -160,10 +168,12 @@ function insertHoursInfo(hoursArray){
 	x.prepend(resultstr);
 }
 
+//function used to sort the opening hours object from Sunday to Saturday
 function sortOpeningTimes(a, b){
 	return a.open.day - b.open.day;
 }
 
+//inserts the various reviews
 function insertReviews(data) {
 	for (var i=0; i < data.length; i++) {
 		var text = data[i].text;
@@ -177,6 +187,9 @@ function insertReviews(data) {
 }
 
 //for querying database to get stylists names
+//uses salonid to pull all stylists with matching IDs
+//if there are any stlists, it calls getStylistAppointments with the set returned from the database
+//otherwise it uses the preset array
 function getStylists(salon_name, salon_address, hours, sid){
 	var preset = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow', 'Daniel Clark', 'Emily Thorne'];
 	var date = new Date();
@@ -205,6 +218,8 @@ function getStylists(salon_name, salon_address, hours, sid){
 	});
 }
 
+//makes tomorrow's date string from a given date object
+//currently used for the URL param I believe
 function makeTommorrowsDateStr(date){
 	var d = date;
 	d.setDate(d.getDate()+1);
@@ -213,8 +228,9 @@ function makeTommorrowsDateStr(date){
 	return dstring;
 }
 
-//will query database returning appointment objects for all the stylists in the group for a specific date
-//will have to use containedIn to filter through database objects
+//Queries the database to get all the appointments for the given day and set of stylists
+//the db argument is used to see if we are using the preset stylists or not
+//if we are, we don't bother doing the query because it won't return anything
 function getStylistsAppointments(salon_name, salon_address, hours, stylists, date, db){
 	var x = $('.list-stylists');
 	var appointments = [];
@@ -257,6 +273,8 @@ function getStylistsAppointments(salon_name, salon_address, hours, stylists, dat
 	return;
 }
 
+//Creates an array of the stylist ids
+//used for the containedIn constraint for the appointment query
 function createStylistIDArray(stylists){
 	var idArray = new Array();
 	for(var i = 0; i < stylists.length; i++)
@@ -266,9 +284,13 @@ function createStylistIDArray(stylists){
 	return idArray;
 }
 
+//Checks to see if the store is open for the given day
+//if it is, call generateTimeButtons
+//otherwise show indicate that the stylists aren't taking appointments today
+//append results
 function insertStylistInfo(salon_name, salon_address, hours, stylist, appointments, date, stylist_id){
 	var x = $('.list-stylists');
-	var today = new Date();
+	var today = new Date(date);
 	var sortedHours = hours.sort(sortOpeningTimes);
 	var headerstr = "<div class=\"panel panel-default\"><div class=\"panel-heading\">";
 	var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
@@ -276,7 +298,6 @@ function insertStylistInfo(salon_name, salon_address, hours, stylist, appointmen
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
 	headerstr += "<h3 class=\"panel-title\">"+stylist+"</h3></div>";
 
-	today.setDate(today.getDate()+1);
 	today = today.getDay();
 
 	var todaysIndex = getTodaysIndex(today, sortedHours);
@@ -308,6 +329,7 @@ function getTodaysIndex(today, hours){
 	return day;
 }
 
+//creates the rating string to append based on the average review rating
 function createRatingString(rating){
 	var full = "<i class=\"fa fa-star\"></i>";
 	var half = "<i class=\"fa fa-star-half-o\"></i>";
@@ -359,6 +381,9 @@ function createRatingString(rating){
 	}
 }
 
+//Takes in hour, minutes in 24 hour pair
+//and converts it to the appropriate time string
+//ie formatTime(14, 30) -> "2:30 PM"
 function formatTime(hour, minutes){
 	var h = hour;
 	var m = minutes;
@@ -384,6 +409,7 @@ function formatTime(hour, minutes){
 	return retstr;
 }
 
+//create the price string to append based on the google places api
 function createPriceString(price){
 	var dollarstr = "<i class=\"fa fa-usd\"></i>";
 	var retstr = "";
@@ -402,6 +428,9 @@ function createPriceString(price){
 	return retstr;
 }
 
+//calls getAvailableTimes to determine available times
+//iterates over the available times calling makeButtonString for each one
+//appends the results together to return
 function generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, today){
 	var availableTimes = getAvailableTimes(hours, appointments, stylist_id, today);
 	var resultstr = "";
@@ -413,13 +442,33 @@ function generateTimeButtons(salon_name, salon_address, hours, appointments, dat
 	return resultstr;
 }
 
-//function to resolve appointments
-//expected output is an array of time strings
-function getAvailableTimes(hours, appointments, stylist_id, today){
-	var startH = Number(hours[today].open.hours);
-	var startM = Number(hours[today].open.minutes);
-	var closeH = Number(hours[today].close.hours);
-	var closeM = Number(hours[today].close.minutes);
+//function to resolve appointment conflicts
+//input:
+////the hours object from google places api
+////the appointments array from the parse query
+////the stylist id
+////the day index
+//
+//output:
+/////an array of formatted available times: ["9:00 AM", "10:00 AM"...]
+//
+//calls extractStylistAppointments to get only the appointments for the specific stylist id
+//creates an array of the hour portions of the already scheduled appointments
+//iterates from start to close, checks to see if the hour is in the unavailable array 
+//and if it is not in the available array
+//if both are true, then it pushes it to the available array
+//it then iterates through the available array formatting the times and returns them in the output array
+//
+//Note: 
+////This current method only has to worry about the hours because it is assumming: 
+////1. an hour long appointment slot
+////2. that each stylist is taking appointments from open to close
+////Because of this, if the store opens at XX:YY, then the YY will remain constant no matter how many bookings
+function getAvailableTimes(hours, appointments, stylist_id, todayIndex){
+	var startH = Number(hours[todayIndex].open.hours);
+	var startM = Number(hours[todayIndex].open.minutes);
+	var closeH = Number(hours[todayIndex].close.hours);
+	var closeM = Number(hours[todayIndex].close.minutes);
 
 	var unavailable = extractStylistAppointments(appointments, stylist_id);
 
@@ -431,10 +480,12 @@ function getAvailableTimes(hours, appointments, stylist_id, today){
 
 	var available = new Array();
 
+	//NOTE: I HAVE NO IDEA WHY TWO LOOPS OF THE SAME THING ARE NEEDED HERE
+	//BUT FOR SOME REASON WHEN I COMMENT IT OUT IT ONLY SHOWS THE FIRST APPOINTMENT TIME
+	//I AM SO CONFUSED!?!?!
+	//I HOPE MY CAPS LOCK IS INDICATING MY CONFUSION
 	for(var i = startH; i < closeH; i++)
 	{
-
-		var sortedArray = unavailable.sort(function(a, b){return a[0]-b[0]});
 
 		for(var i = startH; i < closeH; i++)
 		{
@@ -458,6 +509,8 @@ function getAvailableTimes(hours, appointments, stylist_id, today){
 	return formattedTimes;
 }
 
+//checks to see if the available array contains the given element
+//note: this assumes that the given array is an array of arrays
 function availableContains(ele, array){
 	for(var i = 0; i < array.length; i++)
 	{
@@ -469,6 +522,9 @@ function availableContains(ele, array){
 	return false;
 }
 
+//iterates through the appointments array 
+//and collects the Time objects from appointments that have a matching stylist id
+//calls get time pieces on the result
 function extractStylistAppointments(appointments, stylist_id){
 	var toReturn = new Array();
 	for(var i = 0; i < appointments.length; i++)
@@ -481,6 +537,10 @@ function extractStylistAppointments(appointments, stylist_id){
 	return getTimePieces(toReturn);
 }
 
+//takes an array of date objects
+//returns an array of two element arrays
+//the first position of the two element array is the hours
+//the second position is the minutes
 function getTimePieces(appointments){
 	var timePieces = new Array();
 	for(var i = 0; i < appointments.length; i++)
@@ -495,6 +555,7 @@ function getTimePieces(appointments){
 	return timePieces;
 }
 
+//makes the button string to append for the given available appointment information
 function makeButtonString(salon_name, salon_address, time, date, stylist_id){
 	var link = "reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&address="+salon_address+"&id="+salonID+"&stylistid="+stylist_id;
 	// console.log(link);
@@ -503,35 +564,6 @@ function makeButtonString(salon_name, salon_address, time, date, stylist_id){
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">"+
 					"<a class=\"button\" href=\""+link+"\">"+time+"</a></button>";
 	return buttonStr;
-}
-
-function addHour(time){
-	var timeRes = time.split(":");
-	var hour = Number(timeRes[0]);
-	var minute = timeRes[1];
-	var ampm = timeRes[1].split(" ");
-
-
-	if(hour == 12)
-	{
-		hour = 1;
-		if(ampm == "am" || ampm == "AM")
-		{
-			ampm = "PM";
-		}
-		else
-		{
-			ampm = "AM";
-		}
-	}
-	else
-	{
-		hour += 1;
-	}
-
-	hour = String(hour);
-	hour.concat(":"+minute+" "+ampm);
-	return hour;
 }
 
 function getURLParams(sParam){
@@ -551,12 +583,14 @@ function getURLParams(sParam){
 	}
 }
 
+//For the cases where store hours are unavailable, lets the person know they should try giving them a call
 function promptToCall(){
 	var x = $('.list-stylists');
 	x.append("<h3>Sorry, it doesn't look like we have store hours for this salon.</h3>");
 	x.append("<p>Try giving them a call to see when you can book an appointment.</p>");
 }
 
+//for the case when no reviews are available
 function noReviewsAvailable(){
 	var x = $('.reviews');
 	x.append("<h2>Sorry, there are no reviews available at this time</h2>");
