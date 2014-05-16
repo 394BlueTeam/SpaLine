@@ -288,7 +288,7 @@ function createPriceString(price){
 	var retstr = "";
 	if(isNaN(price))
 	{
-		retstr = "Could not get price level";
+		retstr = "Can not get price level";
 	}
 	else
 	{
