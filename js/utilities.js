@@ -105,7 +105,7 @@ function getURLParams(sParam){
 	}
 }
 
-function bookAppointment(frm){
+function bookAppointment(){
 
 	var frm = document.getElementById('reservation-form');
 	var fName = frm.firstname.value;
@@ -115,16 +115,20 @@ function bookAppointment(frm){
 	var rTime = getURLParams('time');
 	var rSalon = getURLParams('salon');
 	var rAddress = getURLParams('address');
+	var stylist_id = getURLParams('stylistid');
+	var sid = getURLParams('id');
 	var rEmail = String(frm.email.value);
 	var rPhone = String(frm.phone.value);
 	//check to make sure parameters are from url
-	if(!rTime || !rDate || !rSalon || !rAddress)
+	if(!rTime || !rDate || !rSalon || !rAddress || !sid || !stylist_id)
 	{
 		alert("No time, date, or salon selected");
 		console.log("Time is: ", rTime);
 		console.log("Date is: ", rDate);
 		console.log("Salon is: ", rSalon);
 		console.log("Address is: ", rAddress);
+		console.log("Ref is: ", sid);
+		console.log("Stylist ID is: ", stylist_id);
 		return;
 	}
 	//check to make sure form is completely filled out
@@ -140,12 +144,15 @@ function bookAppointment(frm){
 				   date: String(rDate),
 				   time: String(rTime),
 				   salon: String(rSalon),
-				   address: rAddress };
+				   address: rAddress,
+				   salonid: sid,
+				   stylist: stylist_id };
 
 	//call the email confirmation function
 	Parse.Cloud.run('bookAppointment', jsonOb, {
 		success: function(confirm){
 			console.log("email sent");
+			console.log(confirm);
 			alert("You have made your reservation! Check your email for confirmation.");
 			return;
 		},

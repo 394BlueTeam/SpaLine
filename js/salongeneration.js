@@ -1,12 +1,15 @@
+Parse.initialize("o6UHd0P7UT2nyRw8Djmz8YwxG6copYOr2DjhGpoA", "1WDfNgPeu4d8Qc9bHyeNMVOPkvBVQ7mmYLnu53pD");
 var map;
 var service;
 var infowindow;
 var initialLocation;
 var browserSupportFlag =  new Boolean();
 var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+var refNumber;
+var salonID;
 
 function getPlaceDetails(){
-	var refNumber = getURLParams('ref');
+	refNumber = getURLParams('ref');
 	var request = { "reference": String(refNumber) };
 	initialLocation = new google.maps.LatLng(42.053317, -87.672788);
 
@@ -29,18 +32,47 @@ function callback(results, status){
 function generateSalonPage(salon, status){
 	if(status == google.maps.places.PlacesServiceStatus.OK)
 	{
+		salonID = salon.id;
+		storeSalonID(salonID);
 		console.log(salon);
 		insertPageHeader(salon.name);
 		insertQuickInfo(salon.name, salon.types, salon.user_ratings_total, salon.price_level, salon.website)
 		insertLocationInfo(salon.formatted_address, salon.formatted_phone_number);
-		insertHoursInfo(salon.opening_hours.periods);
-		getStylists(salon.name, salon.formatted_address, salon.opening_hours.periods);
-		insertReviews(salon.reviews);
+		if(salon.opening_hours.periods)
+		{
+			insertHoursInfo(salon.opening_hours.periods);
+			getStylists(salon.name, salon.formatted_address, salon.opening_hours.periods, salonID);
+		}
+		else
+		{
+			promptToCall();
+		}
+		if(salon.reviews)
+		{
+			insertReviews(salon.reviews);
+		}
 	}
 	else
 	{
 		alert("ERROR: There was an error getting the details of your salon. Please go back and try again.");
 	}
+}
+
+function storeSalonID(ref){
+	var jsonObj = {
+					salonid: String(ref)
+				  };
+
+	Parse.Cloud.run('storeSalonID', jsonObj, {
+		success: function(store){
+			console.log("Reference number stored");
+			return;
+		},
+		error: function(error){
+			console.log("Failed to store reference number");
+			return;
+		}
+	});
 }
 
 function insertPageHeader(name){
@@ -136,11 +168,32 @@ function insertReviews(data) {
 }
 
 //for querying database to get stylists names
-function getStylists(salon_name, salon_address, hours){
-	var stylists = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow', 'Daniel Clark', 'Emily Thorne'];
+function getStylists(salon_name, salon_address, hours, sid){
+	var preset = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow', 'Daniel Clark', 'Emily Thorne'];
 	var date = new Date();
 	var datestr = makeTommorrowsDateStr(date);
-	getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr);
+
+	var jsonObj = {
+					salonid: String(sid)
+				  };
+
+	Parse.Cloud.run('getStylists',jsonObj, {
+		success: function(stylists){
+			if(stylists.length < 1)
+			{
+				console.log("No stylists matching given salon id: "+sid);
+				getStylistsAppointments(salon_name, salon_address, hours, preset, datestr, false);
+			}
+			else
+			{
+				console.log("Using stylists from database");
+				getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr, true);
+			}
+		},
+		error: function(error){
+			console.log("There was an error getting stylists from the database");
+		}
+	});
 }
 
 function makeTommorrowsDateStr(date){
@@ -153,20 +206,49 @@ function makeTommorrowsDateStr(date){
 
 //will query database returning appointment objects for all the stylists in the group for a specific date
 //will have to use containedIn to filter through database objects
-function getStylistsAppointments(salon_name, salon_address, hours, stylists, date){
+function getStylistsAppointments(salon_name, salon_address, hours, stylists, date, db){
 	var x = $('.list-stylists');
 	var appointments = [];
 	var resultstr = "";
 	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ date+"</h3>";
-	for(var i = 0; i < stylists.length; i++)
+	if(db)
 	{
-		 insertStylistInfo(salon_name, salon_address, hours, stylists[i], appointments, date);
+		var appointmentQuery = new Parse.Query('Appointments');
+		var stylist_ids = createStylistIDArray(stylists);
+		appointmentQuery.containedIn("StylistID", stylist_ids);
+		appointmentQuery.find({
+			success: function(appointments){
+				for(var i = 0; i < stylists.length; i++)
+				{
+					insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, date, stylists[i].id);
+				}
+			},
+			error: function(error){
+				console.log("Could not get appointments");
+			}
+		});
+	}
+	else
+	{
+		for(var i = 0; i < stylists.length; i++)
+		{
+			 insertStylistInfo(salon_name, salon_address, hours, stylists[i], appointments, date, 0);
+		}
 	}
 	x.prepend(headerstr);
 	return;
 }
 
-function insertStylistInfo(salon_name, salon_address, hours, stylist, appointments, date){
+function createStylistIDArray(stylists){
+	var idArray = new Array();
+	for(var i = 0; i < stylists.length; i++)
+	{
+		idArray.push(String(stylists[i].id));
+	}
+	return idArray;
+}
+
+function insertStylistInfo(salon_name, salon_address, hours, stylist, appointments, date, stylist_id){
 	var x = $('.list-stylists');
 	var today = new Date();
 	var sortedHours = hours.sort(sortOpeningTimes);
@@ -185,11 +267,11 @@ function insertStylistInfo(salon_name, salon_address, hours, stylist, appointmen
 	}
 	else
 	{
-		availableAppoints = generateTimeButtons(salon_name, salon_address, hours, appointments, date);
+		availableAppoints = generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, todaysHours);
 	}
 
 	var resultstr =  headerstr + appointHeaderStr + availableAppoints + "</div></div></div>";
-	x.prepend(resultstr);
+	x.append(resultstr);
 }
 
 //returns the hours object if the salon is open
@@ -301,12 +383,12 @@ function createPriceString(price){
 	return retstr;
 }
 
-function generateTimeButtons(salon_name, salon_address, hours, appointments, date){
-	var availableTimes = getAvailableTimes(hours, appointments);
+function generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, today){
+	var availableTimes = getAvailableTimes(hours, appointments, stylist_id, today);
 	var resultstr = "";
 	for(var i = 0; i < availableTimes.length; i++)
 	{
-		resultstr += makeButtonString(salon_name, salon_address, availableTimes[i], date) + " ";
+		resultstr += makeButtonString(salon_name, salon_address, availableTimes[i], date, stylist_id) + " ";
 	}
 
 	return resultstr;
@@ -314,23 +396,93 @@ function generateTimeButtons(salon_name, salon_address, hours, appointments, dat
 
 //function to resolve appointments
 //expected output is an array of time strings
-function getAvailableTimes(hours, appointments){
-	// var startH = Number(hours.open.hours);
-	// var startM = Number(hours.open.minutes);
-	// var closeH = Number(hours.close.hours);
-	// var closeM = Number(hours.close.minutes);
+function getAvailableTimes(hours, appointments, stylist_id, today){
+	var startH = Number(hours[today].open.hours);
+	var startM = Number(hours[today].open.minutes);
+	var closeH = Number(hours[today].close.hours);
+	var closeM = Number(hours[today].close.minutes);
 
-	return ['9:00 AM', '10:00 AM', '1:00 PM', '3:00 PM'];	
-	
+	var unavailable = extractStylistAppointments(appointments, stylist_id);
+
+	var unavailableHours = new Array();
+	for(var i = 0; i < unavailable.length; i++)
+	{
+		unavailableHours.push(unavailable[i][0]);
+	}
+
+	var available = new Array();
+
+	for(var i = startH; i < closeH; i++)
+	{
+
+		var sortedArray = unavailable.sort(function(a, b){return a[0]-b[0]});
+
+		for(var i = startH; i < closeH; i++)
+		{
+				if(unavailableHours.indexOf(i) < 0 && !availableContains(i, available))
+				{
+					available.push([i, startM]);
+					break;
+				}
+		}
+
+	}
+	var formattedTimes = new Array();
+
+	for(var i = 0; i < available.length; i++)
+	{
+		var time = formatTime(available[i][0], available[i][1]);
+		formattedTimes.push(time);
+	}
+
+	// return ['9:00 AM', '10:00 AM', '1:00 PM', '3:00 PM'];
+	return formattedTimes;
 }
 
-function makeButtonString(salon_name, salon_address, time, date){
-	var link = "reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&salonaddress="+salon_address;
+function availableContains(ele, array){
+	for(var i = 0; i < array.length; i++)
+	{
+		if(array[i][0] == ele)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+function extractStylistAppointments(appointments, stylist_id){
+	var toReturn = new Array();
+	for(var i = 0; i < appointments.length; i++)
+	{
+		if(appointments[i].get('StylistID') == String(stylist_id))
+		{
+			toReturn.push(appointments[i].get('Time'));
+		}
+	}
+	return getTimePieces(toReturn);
+}
+
+function getTimePieces(appointments){
+	var timePieces = new Array();
+	for(var i = 0; i < appointments.length; i++)
+	{
+		var date = appointments[i];
+		date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+		var h = date.getHours();
+		var m = date.getMinutes();
+		var dateArray = [h, m];
+		timePieces.push(dateArray);
+	}
+	return timePieces;
+}
+
+function makeButtonString(salon_name, salon_address, time, date, stylist_id){
+	var link = "reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&address="+salon_address+"&id="+salonID+"&stylistid="+stylist_id;
 	// console.log(link);
 	// console.log(salon_name);
 	// console.log(salon_address);
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">"+
-					"<a class=\"button\" href=\"reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&address="+salon_address+"\">"+time+"</a></button>";
+					"<a class=\"button\" href=\""+link+"\">"+time+"</a></button>";
 	return buttonStr;
 }
 
@@ -361,7 +513,6 @@ function addHour(time){
 	hour = String(hour);
 	hour.concat(":"+minute+" "+ampm);
 	return hour;
-
 }
 
 function getURLParams(sParam){
@@ -379,6 +530,11 @@ function getURLParams(sParam){
 			return ret;
 		}
 	}
+}
+
+function promptToCall(){
+	var x = $('list-stylists');
+	x.append("<h3>Sorry, it doesn't look like we have store hours for this salon. Try giving them a call</h3>");
 }
 
 $(document).ready(function(){ getPlaceDetails();});
