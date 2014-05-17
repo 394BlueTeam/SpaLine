@@ -8,6 +8,12 @@ var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
 var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var refNumber;
 var salonID;
+var NEW_STYLIST_NUMBER = 10;
+
+var firstnames = ['Arya', 'Ned', 'Zach', 'Jon', 'John', 'Harvey', 'Tim', 'Amanda', 'Emily', 'Stacy', 'David', 'Chao',
+				  'Yu', 'Shuanping', 'Rohit', 'Sean', 'Daniel', 'Olivia', 'Lindsey', 'Chris', 'Jesus', 'Ted'];
+var lastnames = ['Austin', 'Anumba', 'Ryan', 'Feng', 'Liu', 'Zhou', 'Riesbeck', 'Gupta', 'Saager', 'Smith', 'Doe', 
+				 'Stark', 'Spector', 'Wilde', 'Clarke', 'Pope', 'Snow', 'Thorne', 'Santana', 'Leon', 'Wu'];
 
 //get place details from google places api call
 function getPlaceDetails(){
@@ -203,13 +209,18 @@ function getStylists(salon_name, salon_address, hours, sid){
 		success: function(stylists){
 			if(stylists.length < 1)
 			{
-				console.log("No stylists matching given salon id: "+sid);
-				getStylistsAppointments(salon_name, salon_address, hours, preset, datestr, false);
+				console.log("Creating new stylists");
+				//create 
+				for(var i = 0; i < NEW_STYLIST_NUMBER; i++)
+				{
+					createStylist(sid);
+				}
+				getStylists(salon_name, salon_address, hours, sid);
 			}
 			else
 			{
 				console.log("Using stylists from database");
-				getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr, true);
+				getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr);
 			}
 		},
 		error: function(error){
@@ -231,7 +242,7 @@ function makeTommorrowsDateStr(date){
 //Queries the database to get all the appointments for the given day and set of stylists
 //the db argument is used to see if we are using the preset stylists or not
 //if we are, we don't bother doing the query because it won't return anything
-function getStylistsAppointments(salon_name, salon_address, hours, stylists, date, db){
+function getStylistsAppointments(salon_name, salon_address, hours, stylists, date){
 	var x = $('.list-stylists');
 	var appointments = [];
 	var resultstr = "";
@@ -243,32 +254,24 @@ function getStylistsAppointments(salon_name, salon_address, hours, stylists, dat
 	var todayStart = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
 	var todayEnd = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
 	todayEnd.setDate(todayEnd.getDate()+1);
-	if(db)
-	{
-		var appointmentQuery = new Parse.Query('Appointments');
-		var stylist_ids = createStylistIDArray(stylists);
-		appointmentQuery.containedIn("StylistID", stylist_ids);
-		appointmentQuery.greaterThan("Time", todayStart);
-		appointmentQuery.lessThan("Time", todayEnd);
-		appointmentQuery.find({
-			success: function(appointments){
-				for(var i = 0; i < stylists.length; i++)
-				{
-					insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, date, stylists[i].id);
-				}
-			},
-			error: function(error){
-				console.log("Could not get appointments");
+	
+	var appointmentQuery = new Parse.Query('Appointments');
+	var stylist_ids = createStylistIDArray(stylists);
+	appointmentQuery.containedIn("StylistID", stylist_ids);
+	appointmentQuery.greaterThan("Time", todayStart);
+	appointmentQuery.lessThan("Time", todayEnd);
+	appointmentQuery.find({
+		success: function(appointments){
+			for(var i = 0; i < stylists.length; i++)
+			{
+				insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, date, stylists[i].id);
 			}
-		});
-	}
-	else
-	{
-		for(var i = 0; i < stylists.length; i++)
-		{
-			 insertStylistInfo(salon_name, salon_address, hours, stylists[i], appointments, date, 0);
+		},
+		error: function(error){
+			console.log("Could not get appointments");
 		}
-	}
+	});
+
 	x.prepend(headerstr);
 	return;
 }
@@ -597,6 +600,36 @@ function noReviewsAvailable(){
 	x.css('text-align', "center");
 }
 
-$(document).ready(function(){ getPlaceDetails();});
+function createStylist(sid){
+	var fname = chooseFirstName();
+	var lname = chooseLastName();
+	var fullname = fname +" "+ lname;
+	var jsonObj = {
+					name: fullname,
+					salonid: sid
+				  };
 
+	Parse.Cloud.run('createStylist', jsonObj,{
+		success: function(created){
+			console.log("Successfully created stylist");
+			return created;
+		},
+		error: function(error){
+			console.log("Failed to create stylists with error code: ", error);
+			return;
+		}
+	});	
+}
+
+function chooseFirstName(){
+	var index = Math.round(Math.random()*(firstnames.length-1));
+	return firstnames[index];
+}
+
+function chooseLastName(){
+	var index = Math.round(Math.random()*(lastnames.length-1));
+	return lastnames[index];
+}
+
+$(document).ready(function(){ getPlaceDetails();});
 // google.maps.event.addDomListener(window, 'onpaint', getPlaceDetails);
