@@ -11,9 +11,11 @@ var salonID;
 var NEW_STYLIST_NUMBER = 10;
 
 var firstnames = ['Arya', 'Ned', 'Zach', 'Jon', 'John', 'Harvey', 'Tim', 'Amanda', 'Emily', 'Stacy', 'David', 'Chao',
-				  'Yu', 'Shuanping', 'Rohit', 'Sean', 'Daniel', 'Olivia', 'Lindsey', 'Chris', 'Jesus', 'Ted'];
+				  'Yu', 'Michael', 'Thomas', 'Peter', "Meg", 'Shuangping', "Marcel", 'Lewis', 
+				  'Rohit', 'Sean', 'Daniel', 'Olivia', 'Lindsey', 'Chris', 'Jesus', 'Ted'];
 var lastnames = ['Austin', 'Anumba', 'Ryan', 'Feng', 'Liu', 'Zhou', 'Riesbeck', 'Gupta', 'Saager', 'Smith', 'Doe', 
-				 'Stark', 'Spector', 'Wilde', 'Clarke', 'Pope', 'Snow', 'Thorne', 'Santana', 'Leon', 'Wu'];
+				 'Stark', 'Spector', 'Wilde', 'Clarke', 'Pope', 'Snow', 'Thorne', 'Santana', 'Leon', 'Wu', 'Dinda',
+				 'Norton', 'Pitt', 'Davis', 'Hamilton'];
 
 //get place details from google places api call
 function getPlaceDetails(){
