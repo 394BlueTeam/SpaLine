@@ -48,12 +48,25 @@ function requestSalonInformation(position){
 
 function getResultDetails(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-    for (var i = 0; i < results.length; i++) {
-        var request = {
-            reference: results[i].reference
-        }
-        service.getDetails(request, getResultDistance);
+    //for (var i = 0; i < results.length; i++) {
+        //var request = {
+            //reference: results[i].reference
+        //}
+        //service.getDetails(request, getResultDistance);
+    //}
+    var i = 0;
+    function delayLoop() {
+        setTimeout(function() {
+            var request = {
+                reference: results[i].reference
+            }
+            service.getDetails(request, getResultDistance);
+            i++;
+            if (i < results.length) delayLoop();
+        }, 300)
     }
+    
+    delayLoop();
   }
 }
 var distanceService = new google.maps.DistanceMatrixService();
