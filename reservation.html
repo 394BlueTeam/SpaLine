@@ -19,12 +19,26 @@
         <link rel="stylesheet" href="CSS/style.css" />
         <link rel="stylesheet" href="plugins/FontAwesome/css/font-awesome.min.css" />
         <link rel="stylesheet" href="plugins/Bootstrap/css/bootstrap.min.css" />
+        <script type="text/javascript">
+
+            // jquery to simulate a back button
+            $(document).ready(function(){
+                $('#back').click(function(){
+                    parent.history.back();
+                    return false;
+                });
+            });
+        </script>
     </head>
 
     <body onload="populateReservationInfo()">
         <!-- HEADER -->
         <div class="header">
-            <h1>Confirm Your Reservation</h1>     
+            <h1>Confirm Your Reservation
+                <span>
+                    <a href="#" id="back"><i class="fa fa-chevron-left fa-lg"></i></a>
+                </span>
+            </h1>     
         </div>
 
         <!-- CONTENT -->
@@ -34,19 +48,7 @@
                 <h3>Reservation Details</h3>
             </div>
 
-            <div id="reservation-form-div">
-                <form id="reservation-form">
-                    <input type="text" name="firstname">First Name<br>
-                    <input type="text" name="lastname">Last Name<br>
-                    <input type="email" name="email">Email<br>
-                    <input type="tel" name="phone">Phone<br>
-                    <div id="reservation-submit" onclick="sendConfirmationEmail()">
-                       Click to Confirm Reservation
-                    </div>
-                </form>
-            </div>
-
-            <!-- <form class="form-horizontal" role="form" id="reservation-form">
+            <form class="form-horizontal" role="form" id="reservation-form">
                 <div class="form-group">
                     <label for="firstname" class="col-sm-2 control-label">First Name</label>
                     <div class="col-sm-10">
@@ -76,14 +78,45 @@
                 </div>
 
                 
-
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default" onclick="sendConfirmationEmail()">Click to Confirm Reservation</button>
-                    </div>
+                <div onclick="bookAppointment()" class="btn btn-default">
+                   Click to Confirm Reservation
                 </div>
 
-            </form> -->
+                <!-- <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button class="btn btn-default" onclick="sendConfirmationEmail()">Click to Confirm Reservation</button>
+                    </div>
+                </div> -->
+            </form>
+
+            <!-- <div id="reservation-form-div">
+                <form id="reservation-form">
+                    <input type="text" name="firstname">First Name<br>
+                    <input type="text" name="lastname">Last Name<br>
+                    <input type="email" name="email">Email<br>
+                    <input type="tel" name="phone">Phone<br>
+                    <div id="reservation-submit" onclick="sendConfirmationEmail()">
+                       Click to Confirm Reservation
+                    </div>
+                </form>
+
+            </div> -->
+
+            <div id="alert1" class="alert alert-danger">
+                <strong>Error:</strong> Your email address is not valid. Check to make sure and try again
+            </div>
+
+            <div id="alert2" class="alert alert-danger">
+                <strong>Error:</strong> There was an error reserving your time slot.
+            </div>
+
+            <div id="alert3" class="alert alert-danger">
+                <strong>Error:</strong> There was an error submitting your reservation. Please make sure the form is filled out completely and try submitting again.
+            </div>
+
+            <div id="s-alert1" class="alert alert-success">
+                <strong>Success!</strong> You have succesfully made your reservation. Check your email for confirmation.
+            </div>
         </div>
     </body>
 </html>

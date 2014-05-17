@@ -1,12 +1,17 @@
+Parse.initialize("o6UHd0P7UT2nyRw8Djmz8YwxG6copYOr2DjhGpoA", "1WDfNgPeu4d8Qc9bHyeNMVOPkvBVQ7mmYLnu53pD");
 var map;
 var service;
 var infowindow;
 var initialLocation;
 var browserSupportFlag =  new Boolean();
 var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var refNumber;
+var salonID;
 
+//get place details from google places api call
 function getPlaceDetails(){
-	var refNumber = getURLParams('ref');
+	refNumber = getURLParams('ref');
 	var request = { "reference": String(refNumber) };
 	initialLocation = new google.maps.LatLng(42.053317, -87.672788);
 
@@ -26,16 +31,35 @@ function callback(results, status){
 	return 1;
 }
 
+//main function for generating the salon page
+//calls all the functions that fill in the various parts
 function generateSalonPage(salon, status){
 	if(status == google.maps.places.PlacesServiceStatus.OK)
 	{
+		salonID = salon.id;
+		storeSalonID(salonID, refNumber, salon.name, salon.formatted_address);
 		console.log(salon);
 		insertPageHeader(salon.name);
 		insertQuickInfo(salon.name, salon.types, salon.user_ratings_total, salon.price_level, salon.website)
 		insertLocationInfo(salon.formatted_address, salon.formatted_phone_number);
-		insertHoursInfo(salon.opening_hours.periods);
-		getStylists(salon.name, salon.formatted_address, salon.opening_hours.periods);
-		insertReviews(salon.reviews);
+		if(salon.opening_hours)
+		{
+			insertHoursInfo(salon.opening_hours.periods);
+			getStylists(salon.name, salon.formatted_address, salon.opening_hours.periods, salonID);
+		}
+		else
+		{
+			console.log("else");
+			promptToCall();
+		}
+		if(salon.reviews)
+		{
+			insertReviews(salon.reviews);
+		}
+		else
+		{
+			noReviewsAvailable();
+		}
 	}
 	else
 	{
@@ -43,11 +67,34 @@ function generateSalonPage(salon, status){
 	}
 }
 
+//calls the Parse cloud function to store salon id, ref, name, address
+function storeSalonID(id, ref, name, address){
+	var jsonObj = {
+					salonid: String(id),
+					name: String(name),
+					address: String(address),
+					reference: String(ref)
+				  };
+
+	Parse.Cloud.run('storeSalonID', jsonObj, {
+		success: function(store){
+			console.log("Reference number stored");
+			return;
+		},
+		error: function(error){
+			console.log("Failed to store reference number");
+			return;
+		}
+	});
+}
+
+//appends the page header
 function insertPageHeader(name){
 	var x = $('.header');
 	x.append("<h1 id='title'>"+name+"<span><a href='results.html' id='back'><i class='fa fa-chevron-left fa-lg'></i></a></span></h1>");
 }
 
+//inserts the quick info section of the salon page
 function insertQuickInfo(name, type, rating, price, url){
 	var x = $('.quick-info');
 	var namestr = "<h2 class=\"name\">"+name+"</h2>";
@@ -86,6 +133,7 @@ function insertQuickInfo(name, type, rating, price, url){
 	x.prepend(resultstr);
 }
 
+//inserts the location info section of the salon page
 function insertLocationInfo(address, phone){
 	var x = $('.location');
 	var headerstr = "<h3 class='divider'>Location</h3>";
@@ -95,6 +143,7 @@ function insertLocationInfo(address, phone){
 	x.prepend(resultstr);
 }
 
+//inserts the store hours into the salon page
 function insertHoursInfo(hoursArray){
 	var x = $('.details');
 	var headerstr = "<h3 class=\"divider\">Details</h3>";
@@ -119,10 +168,12 @@ function insertHoursInfo(hoursArray){
 	x.prepend(resultstr);
 }
 
+//function used to sort the opening hours object from Sunday to Saturday
 function sortOpeningTimes(a, b){
 	return a.open.day - b.open.day;
 }
 
+//inserts the various reviews
 function insertReviews(data) {
 	for (var i=0; i < data.length; i++) {
 		var text = data[i].text;
@@ -136,13 +187,39 @@ function insertReviews(data) {
 }
 
 //for querying database to get stylists names
-function getStylists(salon_name, salon_address, hours){
-	var stylists = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow', 'Daniel Clark', 'Emily Thorne'];
+//uses salonid to pull all stylists with matching IDs
+//if there are any stlists, it calls getStylistAppointments with the set returned from the database
+//otherwise it uses the preset array
+function getStylists(salon_name, salon_address, hours, sid){
+	var preset = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow', 'Daniel Clark', 'Emily Thorne'];
 	var date = new Date();
 	var datestr = makeTommorrowsDateStr(date);
-	getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr);
+
+	var jsonObj = {
+					salonid: String(sid)
+				  };
+
+	Parse.Cloud.run('getStylists',jsonObj, {
+		success: function(stylists){
+			if(stylists.length < 1)
+			{
+				console.log("No stylists matching given salon id: "+sid);
+				getStylistsAppointments(salon_name, salon_address, hours, preset, datestr, false);
+			}
+			else
+			{
+				console.log("Using stylists from database");
+				getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr, true);
+			}
+		},
+		error: function(error){
+			console.log("There was an error getting stylists from the database");
+		}
+	});
 }
 
+//makes tomorrow's date string from a given date object
+//currently used for the URL param I believe
 function makeTommorrowsDateStr(date){
 	var d = date;
 	d.setDate(d.getDate()+1);
@@ -151,24 +228,69 @@ function makeTommorrowsDateStr(date){
 	return dstring;
 }
 
-//will query database returning appointment objects for all the stylists in the group for a specific date
-//will have to use containedIn to filter through database objects
-function getStylistsAppointments(salon_name, salon_address, hours, stylists, date){
+//Queries the database to get all the appointments for the given day and set of stylists
+//the db argument is used to see if we are using the preset stylists or not
+//if we are, we don't bother doing the query because it won't return anything
+function getStylistsAppointments(salon_name, salon_address, hours, stylists, date, db){
 	var x = $('.list-stylists');
 	var appointments = [];
 	var resultstr = "";
-	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ date+"</h3>";
-	for(var i = 0; i < stylists.length; i++)
+	var today = new Date();
+	today.setDate(today.getDate()+1);
+	var day = today.getDay();
+	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ dayNames[day] +", "+ date+"</h3>";
+	var dateEles = date.split("/");
+	var todayStart = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
+	var todayEnd = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
+	todayEnd.setDate(todayEnd.getDate()+1);
+	if(db)
 	{
-		 insertStylistInfo(salon_name, salon_address, hours, stylists[i], appointments, date);
+		var appointmentQuery = new Parse.Query('Appointments');
+		var stylist_ids = createStylistIDArray(stylists);
+		appointmentQuery.containedIn("StylistID", stylist_ids);
+		appointmentQuery.greaterThan("Time", todayStart);
+		appointmentQuery.lessThan("Time", todayEnd);
+		appointmentQuery.find({
+			success: function(appointments){
+				for(var i = 0; i < stylists.length; i++)
+				{
+					insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, date, stylists[i].id);
+				}
+			},
+			error: function(error){
+				console.log("Could not get appointments");
+			}
+		});
+	}
+	else
+	{
+		for(var i = 0; i < stylists.length; i++)
+		{
+			 insertStylistInfo(salon_name, salon_address, hours, stylists[i], appointments, date, 0);
+		}
 	}
 	x.prepend(headerstr);
 	return;
 }
 
-function insertStylistInfo(salon_name, salon_address, hours, stylist, appointments, date){
+//Creates an array of the stylist ids
+//used for the containedIn constraint for the appointment query
+function createStylistIDArray(stylists){
+	var idArray = new Array();
+	for(var i = 0; i < stylists.length; i++)
+	{
+		idArray.push(String(stylists[i].id));
+	}
+	return idArray;
+}
+
+//Checks to see if the store is open for the given day
+//if it is, call generateTimeButtons
+//otherwise show indicate that the stylists aren't taking appointments today
+//append results
+function insertStylistInfo(salon_name, salon_address, hours, stylist, appointments, date, stylist_id){
 	var x = $('.list-stylists');
-	var today = new Date();
+	var today = new Date(date);
 	var sortedHours = hours.sort(sortOpeningTimes);
 	var headerstr = "<div class=\"panel panel-default\"><div class=\"panel-heading\">";
 	var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
@@ -178,23 +300,23 @@ function insertStylistInfo(salon_name, salon_address, hours, stylist, appointmen
 
 	today = today.getDay();
 
-	var todaysHours = getTodaysHours(today, sortedHours);
-	if(todaysHours < 0)
+	var todaysIndex = getTodaysIndex(today, sortedHours);
+	if(todaysIndex < 0)
 	{
 		availableAppoints = buttonStr + "Sorry, this person is not taking appointments today.</button>"
 	}
 	else
 	{
-		availableAppoints = generateTimeButtons(salon_name, salon_address, hours, appointments, date);
+		availableAppoints = generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, todaysIndex);
 	}
 
 	var resultstr =  headerstr + appointHeaderStr + availableAppoints + "</div></div></div>";
-	x.prepend(resultstr);
+	x.append(resultstr);
 }
 
-//returns the hours object if the salon is open
+//returns the hours object index if the salon is open
 //returns -1 if it is colosed
-function getTodaysHours(today, hours){
+function getTodaysIndex(today, hours){
 	var day = -1;
 	for(i = 0; i < hours.length; i++)
 	{
@@ -207,6 +329,7 @@ function getTodaysHours(today, hours){
 	return day;
 }
 
+//creates the rating string to append based on the average review rating
 function createRatingString(rating){
 	var full = "<i class=\"fa fa-star\"></i>";
 	var half = "<i class=\"fa fa-star-half-o\"></i>";
@@ -258,6 +381,9 @@ function createRatingString(rating){
 	}
 }
 
+//Takes in hour, minutes in 24 hour pair
+//and converts it to the appropriate time string
+//ie formatTime(14, 30) -> "2:30 PM"
 function formatTime(hour, minutes){
 	var h = hour;
 	var m = minutes;
@@ -283,12 +409,13 @@ function formatTime(hour, minutes){
 	return retstr;
 }
 
+//create the price string to append based on the google places api
 function createPriceString(price){
 	var dollarstr = "<i class=\"fa fa-usd\"></i>";
 	var retstr = "";
 	if(isNaN(price))
 	{
-		retstr = "Could not get price level";
+		retstr = "Can not get price level";
 	}
 	else
 	{
@@ -301,67 +428,142 @@ function createPriceString(price){
 	return retstr;
 }
 
-function generateTimeButtons(salon_name, salon_address, hours, appointments, date){
-	var availableTimes = getAvailableTimes(hours, appointments);
+//calls getAvailableTimes to determine available times
+//iterates over the available times calling makeButtonString for each one
+//appends the results together to return
+function generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, today){
+	var availableTimes = getAvailableTimes(hours, appointments, stylist_id, today);
 	var resultstr = "";
 	for(var i = 0; i < availableTimes.length; i++)
 	{
-		resultstr += makeButtonString(salon_name, salon_address, availableTimes[i], date) + " ";
+		resultstr += makeButtonString(salon_name, salon_address, availableTimes[i], date, stylist_id) + " ";
 	}
 
 	return resultstr;
 }
 
-//function to resolve appointments
-//expected output is an array of time strings
-function getAvailableTimes(hours, appointments){
-	// var startH = Number(hours.open.hours);
-	// var startM = Number(hours.open.minutes);
-	// var closeH = Number(hours.close.hours);
-	// var closeM = Number(hours.close.minutes);
+//function to resolve appointment conflicts
+//input:
+////the hours object from google places api
+////the appointments array from the parse query
+////the stylist id
+////the day index
+//
+//output:
+/////an array of formatted available times: ["9:00 AM", "10:00 AM"...]
+//
+//calls extractStylistAppointments to get only the appointments for the specific stylist id
+//creates an array of the hour portions of the already scheduled appointments
+//iterates from start to close, checks to see if the hour is in the unavailable array 
+//and if it is not in the available array
+//if both are true, then it pushes it to the available array
+//it then iterates through the available array formatting the times and returns them in the output array
+//
+//Note: 
+////This current method only has to worry about the hours because it is assumming: 
+////1. an hour long appointment slot
+////2. that each stylist is taking appointments from open to close
+////Because of this, if the store opens at XX:YY, then the YY will remain constant no matter how many bookings
+function getAvailableTimes(hours, appointments, stylist_id, todayIndex){
+	var startH = Number(hours[todayIndex].open.hours);
+	var startM = Number(hours[todayIndex].open.minutes);
+	var closeH = Number(hours[todayIndex].close.hours);
+	var closeM = Number(hours[todayIndex].close.minutes);
 
-	return ['9:00 AM', '10:00 AM', '1:00 PM', '3:00 PM'];	
-	
+	var unavailable = extractStylistAppointments(appointments, stylist_id);
+
+	var unavailableHours = new Array();
+	for(var i = 0; i < unavailable.length; i++)
+	{
+		unavailableHours.push(unavailable[i][0]);
+	}
+
+	var available = new Array();
+
+	//NOTE: I HAVE NO IDEA WHY TWO LOOPS OF THE SAME THING ARE NEEDED HERE
+	//BUT FOR SOME REASON WHEN I COMMENT IT OUT IT ONLY SHOWS THE FIRST APPOINTMENT TIME
+	//I AM SO CONFUSED!?!?!
+	//I HOPE MY CAPS LOCK IS INDICATING MY CONFUSION
+	for(var i = startH; i < closeH; i++)
+	{
+
+		for(var i = startH; i < closeH; i++)
+		{
+				if(unavailableHours.indexOf(i) < 0 && !availableContains(i, available))
+				{
+					available.push([i, startM]);
+					break;
+				}
+		}
+
+	}
+	var formattedTimes = new Array();
+
+	for(var i = 0; i < available.length; i++)
+	{
+		var time = formatTime(available[i][0], available[i][1]);
+		formattedTimes.push(time);
+	}
+
+	// return ['9:00 AM', '10:00 AM', '1:00 PM', '3:00 PM'];
+	return formattedTimes;
 }
 
-function makeButtonString(salon_name, salon_address, time, date){
-	var link = "reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&salonaddress="+salon_address;
+//checks to see if the available array contains the given element
+//note: this assumes that the given array is an array of arrays
+function availableContains(ele, array){
+	for(var i = 0; i < array.length; i++)
+	{
+		if(array[i][0] == ele)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+//iterates through the appointments array 
+//and collects the Time objects from appointments that have a matching stylist id
+//calls get time pieces on the result
+function extractStylistAppointments(appointments, stylist_id){
+	var toReturn = new Array();
+	for(var i = 0; i < appointments.length; i++)
+	{
+		if(appointments[i].get('StylistID') == String(stylist_id))
+		{
+			toReturn.push(appointments[i].get('Time'));
+		}
+	}
+	return getTimePieces(toReturn);
+}
+
+//takes an array of date objects
+//returns an array of two element arrays
+//the first position of the two element array is the hours
+//the second position is the minutes
+function getTimePieces(appointments){
+	var timePieces = new Array();
+	for(var i = 0; i < appointments.length; i++)
+	{
+		var date = appointments[i];
+		date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+		var h = date.getHours();
+		var m = date.getMinutes();
+		var dateArray = [h, m];
+		timePieces.push(dateArray);
+	}
+	return timePieces;
+}
+
+//makes the button string to append for the given available appointment information
+function makeButtonString(salon_name, salon_address, time, date, stylist_id){
+	var link = "reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&address="+salon_address+"&id="+salonID+"&stylistid="+stylist_id;
 	// console.log(link);
 	// console.log(salon_name);
 	// console.log(salon_address);
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">"+
-					"<a class=\"button\" href=\"reservation.html?time="+time+"&date="+date+"&salon="+salon_name+"&address="+salon_address+"\">"+time+"</a></button>";
+					"<a class=\"button\" href=\""+link+"\">"+time+"</a></button>";
 	return buttonStr;
-}
-
-function addHour(time){
-	var timeRes = time.split(":");
-	var hour = Number(timeRes[0]);
-	var minute = timeRes[1];
-	var ampm = timeRes[1].split(" ");
-
-
-	if(hour == 12)
-	{
-		hour = 1;
-		if(ampm == "am" || ampm == "AM")
-		{
-			ampm = "PM";
-		}
-		else
-		{
-			ampm = "AM";
-		}
-	}
-	else
-	{
-		hour += 1;
-	}
-
-	hour = String(hour);
-	hour.concat(":"+minute+" "+ampm);
-	return hour;
-
 }
 
 function getURLParams(sParam){
@@ -379,6 +581,20 @@ function getURLParams(sParam){
 			return ret;
 		}
 	}
+}
+
+//For the cases where store hours are unavailable, lets the person know they should try giving them a call
+function promptToCall(){
+	var x = $('.list-stylists');
+	x.append("<h3>Sorry, it doesn't look like we have store hours for this salon.</h3>");
+	x.append("<p>Try giving them a call to see when you can book an appointment.</p>");
+}
+
+//for the case when no reviews are available
+function noReviewsAvailable(){
+	var x = $('.reviews');
+	x.append("<h2>Sorry, there are no reviews available at this time</h2>");
+	x.css('text-align', "center");
 }
 
 $(document).ready(function(){ getPlaceDetails();});

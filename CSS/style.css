@@ -135,6 +135,12 @@ h2, p, ol, ul, li {
 	/*padding: 0 !important;*/
 }
 
+.alert {
+    display: none;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    text-align: center;
+}
 
 /*----------------------------- landing page -----------------------------*/
 /*========================================================================*/
@@ -188,8 +194,8 @@ h2, p, ol, ul, li {
 		position: fixed;
 		top: 50%;
 		left: 50%;
-		margin-top: -50px;
-		margin-left: -100px;
+		margin-top: -100px;
+		margin-left: -114px;
 	}
 
 	#main-btns > a {
