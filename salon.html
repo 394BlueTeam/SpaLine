@@ -53,7 +53,9 @@
 
                     <div class="details"></div>
 
-                    <div class="list-stylists"></div>
+                    <div class="list-stylists">
+                        Search: <input id="stylist-search" type="text" style="margin-bottom:20px"></input>
+                    </div>
                 </div>
             </div>
 
@@ -191,7 +193,6 @@
             </div> -->
 
         </div>
-        <!--filter-->
         <script type="text/javascript">
             $( "#stylists" ).click(function() {
                 $("div.reviews").hide();
@@ -213,5 +214,21 @@
                 $("div.services").show();
             });
         </script>
+        <!--filter-->
+        <script>
+            $('#stylist-search').keyup(function(){
+                var search = $('#stylist-search').val().toLowerCase()
+                $('.panel').each(function(){  
+                    var title = $(this).find('.panel-title').html().toLowerCase()
+                    if ( title.indexOf(search) == -1){
+                        $(this).hide()
+                    }
+                    else{
+                        $(this).show()
+                    }
+                })
+            })
+        </script>
+
     </body>
 </html>
