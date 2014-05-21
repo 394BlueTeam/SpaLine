@@ -7,7 +7,12 @@ var requestLocation;
 function getUserLocation(){
   if(navigator.geolocation)
   {
-    navigator.geolocation.getCurrentPosition(requestSalonInformation, handleLocationErrors);
+    params = top.window.location.search;
+    if (params = "") {
+      navigator.geolocation.getCurrentPosition(requestSalonInformation, handleLocationErrors);
+    } else {
+      navigator.geolocation.getCurrentPosition(requestSpecificSalonInformation, handleLocationErrors);
+    }
   }
   else
   {
@@ -32,7 +37,43 @@ function requestSalonInformation(position){
   console.log("Requesting Location is: "+ requestLocation);
   var request = {
                   location : requestLocation,
-                  //name: 'studio',
+                  types: ['hair_care'],
+                  rankBy: google.maps.places.RankBy.DISTANCE
+                };
+
+  service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, getResultDetails);
+  }
+  else
+  {
+    console.log("Handle no geolocation");
+    handleNoGeolocation(true);
+  }
+}
+
+function requestSpecificSalonInformation(position){
+  if(position)
+  {
+  var requestName = "";
+  var keywords = top.window.location.search.split("=")[1].split("+");
+  for (var i = 0; i < keywords.length; i++) {
+    requestName = requestName + keywords[i] + " ";
+  }
+  console.log(requestName);
+
+  requestLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  var myOptions = {
+              zoom: 6,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              center: requestLocation
+            }
+
+    var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+  map.setCenter(requestLocation);
+  console.log("Requesting Location is: "+ requestLocation);
+  var request = {
+                  location : requestLocation,
+                  name: requestName,
                   types: ['hair_care'],
                   rankBy: google.maps.places.RankBy.DISTANCE
                 };
