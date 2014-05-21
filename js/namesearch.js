@@ -3,6 +3,8 @@ var service;
 var infowindow;
 var browserSupportFlag =  new Boolean();
 var requestLocation;
+var inputvalue;
+var url = location.search;
 
 function getUserLocation(){
   if(navigator.geolocation)
@@ -15,6 +17,37 @@ function getUserLocation(){
       browserSupportFlag = false;
       handleNoGeolocation(browserSupportFlag);
   }
+}
+
+
+  $("#search-btns").submit(function(e){
+
+    inputvalue = $("#salon-search").val();
+    console.log(inputvalue);
+  
+});
+
+function $G(){
+var Url=top.window.location.href;
+var u,g,StrBack='';
+if(arguments[arguments.length-1]=="#")
+   u=Url.split("#");
+else
+   u=Url.split("?");
+if (u.length==1) g='';
+else g=u[1];
+if(g!=''){
+   gg=g.split("&");
+   var MaxI=gg.length;
+   str = arguments[0]+"=";
+   for(i=0;i<MaxI;i++){
+      if(gg[i].indexOf(str)==0) {
+        StrBack=gg[i].replace(str,"");
+        break;
+      }
+   }
+}
+return StrBack;
 }
 
 function requestSalonInformation(position){
@@ -32,11 +65,11 @@ function requestSalonInformation(position){
   console.log("Requesting Location is: "+ requestLocation);
   var request = {
                   location : requestLocation,
-                  //name: 'studio',
+                  name: $G("SalonName"),
                   types: ['hair_care'],
                   rankBy: google.maps.places.RankBy.DISTANCE
                 };
-
+                console.log($G("SalonName"));
   service = new google.maps.places.PlacesService(map);
   service.nearbySearch(request, getResultDetails);
   }

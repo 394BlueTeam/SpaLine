@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="CSS/style.css" />
         <link rel="stylesheet" href="plugins/FontAwesome/css/font-awesome.min.css" />
         <script src="js/modernizr.custom.js"></script>
+        <script type="text/javascript" src = "js/namesearch.js"></script>
     </head>
 
 
@@ -28,7 +29,6 @@
                 <!-- to remain hidden until we implement search -->
                 <!-- <p class="mini">search for a salon</p>
                 <div id="sb-search" class="sb-search">
-                    <form>
                         <input class="sb-search-input" placeholder="Enter name of salon..." type="search" value="" name="search" id="search">
                         <input class="sb-search-submit" type="submit" value="">
                         <span class="sb-icon-search"></span>
@@ -40,9 +40,13 @@
                     <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
                     <i class="fa fa-map-marker fa-stack-1x "></i>
                 </span></a>
-            </div>
-      </div>
 
+            <form name="input" action="searchresult.html" method="get">
+            <p class="mini">search a salon near you</p>
+            Salon name: <input type="text" name="SalonName" value=""><br>
+            <input type="submit" value="Submit">    
+            </form> 
+      </div>
         <!-- 
         <script src="JS/classie.js"></script>
         <script src="JS/uisearch.js"></script>
