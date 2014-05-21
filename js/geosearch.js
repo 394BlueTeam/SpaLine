@@ -7,8 +7,7 @@ var requestLocation;
 function getUserLocation(){
   if(navigator.geolocation)
   {
-    params = top.window.location.search;
-    if (params = "") {
+    if (top.window.location.search == "") {
       navigator.geolocation.getCurrentPosition(requestSalonInformation, handleLocationErrors);
     } else {
       navigator.geolocation.getCurrentPosition(requestSpecificSalonInformation, handleLocationErrors);
@@ -54,10 +53,10 @@ function requestSalonInformation(position){
 function requestSpecificSalonInformation(position){
   if(position)
   {
-  var requestName = "";
+  var requestName = '';
   var keywords = top.window.location.search.split("=")[1].split("+");
   for (var i = 0; i < keywords.length; i++) {
-    requestName = requestName + keywords[i] + " ";
+    requestName = requestName + keywords[i] + ' ';
   }
   console.log(requestName);
 
@@ -73,7 +72,7 @@ function requestSpecificSalonInformation(position){
   console.log("Requesting Location is: "+ requestLocation);
   var request = {
                   location : requestLocation,
-                  name: requestName,
+                  name: [requestName],
                   types: ['hair_care'],
                   rankBy: google.maps.places.RankBy.DISTANCE
                 };
