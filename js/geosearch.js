@@ -96,6 +96,7 @@ function getResultDetails(results, status) {
         //service.getDetails(request, getResultDistance);
     //}
     var i = 0;
+    console.log(results);
     function delayLoop() {
         setTimeout(function() {
             var request = {
