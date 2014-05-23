@@ -3,11 +3,12 @@ var service;
 var infowindow;
 var browserSupportFlag =  new Boolean();
 var requestLocation;
-
+var RUSH = false;
 function getUserLocation(){
   if(navigator.geolocation)
   {
     if (top.window.location.search == "") {
+      RUSH = true;
       navigator.geolocation.getCurrentPosition(requestSalonInformation, handleLocationErrors);
     } else {
       navigator.geolocation.getCurrentPosition(requestSpecificSalonInformation, handleLocationErrors);
@@ -137,22 +138,24 @@ function addSalon(place, distance){
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
     }
 
-    var buttons;
-    if(!!place.opening_hours)
+    var buttons = "";
+    if(RUSH)
     {
-      // console.log("opening hours exists");
-      var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
-      var buttonHeader = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
-      var appointmentStr = createAppointmentButtons(place);
-      buttons = appointHeaderStr +appointmentStr + "</div></div>";
+      if(!!place.opening_hours)
+      {
+        // console.log("opening hours exists");
+        var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
+        var buttonHeader = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
+        var appointmentStr = createAppointmentButtons(place);
+        buttons = appointHeaderStr +appointmentStr + "</div></div>";
 
+      }
+      else
+      {
+        buttons = "<p>Sorry, it looks like this salon's hours are not available</p>";
+        buttons += "<p>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p>";
+      }
     }
-    else
-    {
-      buttons = "<p>Sorry, it looks like this salon's hours are not available</p>";
-      buttons += "<p>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p>";
-    }
-    
     // console.log("Buttons is: ",buttons);
 
     html += "<div class='caption'><h3 class='name'><a href='salon.html?ref="+place.reference+"'>"+place.name+"</a></h3>";
