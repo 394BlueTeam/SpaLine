@@ -188,3 +188,83 @@ function populateReservationInfo(){
 
 	x.append(namestr+datestr+timestr);
 }
+
+//calls the Parse cloud function to store salon id, ref, name, address
+function storeSalonID(id, ref, name, address){
+	var jsonObj = {
+					salonid: String(id),
+					name: String(name),
+					address: String(address),
+					reference: String(ref)
+				  };
+
+	Parse.Cloud.run('storeSalonID', jsonObj, {
+		success: function(store){
+			console.log("Reference number stored");
+			return;
+		},
+		error: function(error){
+			console.log("Failed to store reference number");
+			return;
+		}
+	});
+}
+
+function getCurrentTimePieces(){
+	var now = new Date(Date.now());
+	return [now.getHours(), now.getMinutes(), now.getDay()];
+}
+
+//Takes in hour, minutes in 24 hour pair
+//and converts it to the appropriate time string
+//ie formatTime(14, 30) -> "2:30 PM"
+function formatTime(hour, minutes){
+	var h = hour;
+	var m = minutes;
+	var ampm = 'AM';
+	if(Number(hour) > 12)
+	{
+		h = hour - 12;
+	}
+	if(Number(hour) > 11)
+	{
+		ampm = 'PM';
+	}
+	if(Number(minutes) == 0)
+	{
+		m = "00";
+	}
+	if(Number(minutes) > 0 && Number(minutes) < 10)
+	{
+		m = "0"+String(minutes);
+	}
+
+	var retstr = String(h) + ":" + String(m) + " " + ampm;
+	return retstr;
+}
+
+function makeTodayDateStr(){
+	var date = new Date(Date.now());
+	var dstring = String(date.getMonth() + 1)+"/"+String(date.getDate())+"/"+String(date.getYear() + 1900);
+	return dstring;	
+}
+
+//function used to sort the opening hours object from Sunday to Saturday
+function sortOpeningTimes(a, b){
+	return a.open.day - b.open.day;
+}
+
+//returns the hours object index if the salon is open
+//returns -1 if it is colosed
+function getTodaysIndex(today, hours){
+	var day = -1;
+	for(i = 0; i < hours.length; i++)
+	{
+		if(today == hours[i].open.day)
+		{
+			day = i;
+			return day;
+		}
+	}
+	return day;
+}
