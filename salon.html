@@ -229,11 +229,15 @@
                         $(this).show()
                     }
                 })
+                $('#cancel-search').css('display', 'inline')
             })
         </script>
         <script>
         function clearSearch(){
             $('#stylist-search').val('')
+            $('.panel').each(function(){  
+                        $(this).show()
+                })
         }
         </script>
     </body>
