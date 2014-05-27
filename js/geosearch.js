@@ -3,11 +3,16 @@ var service;
 var infowindow;
 var browserSupportFlag =  new Boolean();
 var requestLocation;
-
+var RUSH = false;
 function getUserLocation(){
   if(navigator.geolocation)
   {
-    navigator.geolocation.getCurrentPosition(requestSalonInformation, handleLocationErrors);
+    if (top.window.location.search == "") {
+      RUSH = true;
+      navigator.geolocation.getCurrentPosition(requestSalonInformation, handleLocationErrors);
+    } else {
+      navigator.geolocation.getCurrentPosition(requestSpecificSalonInformation, handleLocationErrors);
+    }
   }
   else
   {
@@ -46,6 +51,43 @@ function requestSalonInformation(position){
   }
 }
 
+function requestSpecificSalonInformation(position){
+  if(position)
+  {
+  var requestName = '';
+  var keywords = top.window.location.search.split("=")[1].split("+");
+  for (var i = 0; i < keywords.length; i++) {
+    requestName = requestName + keywords[i] + ' ';
+  }
+  // console.log(requestName);
+
+  requestLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+  var myOptions = {
+              zoom: 6,
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              center: requestLocation
+            }
+
+    var map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+  map.setCenter(requestLocation);
+  // console.log("Requesting Location is: "+ requestLocation);
+  var request = {
+                  location : requestLocation,
+                  name: [requestName],
+                  types: ['hair_care'],
+                  rankBy: google.maps.places.RankBy.DISTANCE
+                };
+
+  service = new google.maps.places.PlacesService(map);
+  service.nearbySearch(request, getResultDetails);
+  }
+  else
+  {
+    console.log("Handle no geolocation");
+    handleNoGeolocation(true);
+  }
+}
+
 function getResultDetails(results, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
@@ -54,6 +96,20 @@ function getResultDetails(results, status) {
         }
         service.getDetails(request, getResultDistance);
     }
+    //var i = 0;
+    // console.log(results);
+    //function delayLoop() {
+        //setTimeout(function() {
+          //  var request = {
+          //      reference: results[i].reference
+            //}
+            //service.getDetails(request, getResultDistance);
+          //  i++;
+        //    if (i < results.length) delayLoop();
+      //  }, 300)
+    //}
+    
+    //delayLoop();
   }
 }
 var distanceService = new google.maps.DistanceMatrixService();
@@ -71,7 +127,7 @@ function getResultDistance(place, status) {
 }
 
 function addSalon(place, distance){
-    console.log(place);
+    // console.log(place);
     pic = insertPic(place.photos);
     if (pic != '') {
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
@@ -82,17 +138,103 @@ function addSalon(place, distance){
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
     }
 
-    
+    var buttons = "";
+    if(RUSH)
+    {
+      if(!!place.opening_hours)
+      {
+        // console.log("opening hours exists");
+        var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
+        var buttonHeader = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
+        var appointmentStr = createAppointmentButtons(place);
+        buttons = appointHeaderStr +appointmentStr + "</div></div>";
+
+      }
+      else
+      {
+        buttons = "<p>Sorry, it looks like this salon's hours are not available</p>";
+        buttons += "<p>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p>";
+      }
+    }
+    // console.log("Buttons is: ",buttons);
+
     html += "<div class='caption'><h3 class='name'><a href='salon.html?ref="+place.reference+"'>"+place.name+"</a></h3>";
     html += "<p class='address'>"+place.formatted_address+"</p>"
     html += "<p class='distance'>"+distance+"</p>"
+    html += buttons
     html += "</div></div></li>"
+
   //     <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
   // <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
     
     $('#salonList').append(html);
 }
 
+function createAppointmentButtons(place){
+  var name = place.name;
+  var reference = place.reference;
+  var id = place.id;
+  var address = place.formatted_address;
+  var datestr = makeTodayDateStr();
+
+  storeSalonID(id, reference, name, address);
+
+  var now = getCurrentTimePieces();
+  var hours = place.opening_hours.periods;
+  var sortedHours = hours.sort(sortOpeningTimes);
+  // console.log(place.opening_hours.periods);
+  var todayIndex = getTodaysIndex(now[2], sortedHours);
+  var availableTimes = createSalonAppointments(place.opening_hours.periods, now, todayIndex);
+
+  var resultstr = "";
+  // console.log("availableTimes is: ", availableTimes);
+  for(var i = 0; i < availableTimes.length; i++)
+  {
+    resultstr += " "+createAppointmentString(name, address, availableTimes[i], datestr, id);
+  }
+
+  return resultstr;
+}
+
+function createSalonAppointments(hours, now, today){
+  // console.log(now[2], hours);
+  var startH = Number(hours[today].open.hours);
+  var startM = Number(hours[today].open.minutes);
+  var closeH = Number(hours[today].close.hours);
+  var closeM = Number(hours[today].close.minutes);
+  var nowH = now[0];
+  var nowM = now[1];
+
+  var available = new Array();
+
+  for(var i = startH; i < closeH; i++)
+  {
+    if(i > nowH || (startM > nowM && i == nowH)) 
+    {
+      available.push([i, startM]);
+    }
+  }
+
+  var formattedTimes = new Array();
+
+  for(var i = 0; i < available.length; i++)
+  {
+    var time = formatTime(available[i][0], available[i][1]);
+    formattedTimes.push(time);
+  }
+
+  return formattedTimes;
+}
+
+function createAppointmentString(salon_name, salon_address, time, date, salonID){
+  var link = "reservation.html?time="+time+"&date="+date+"&salon="+salon_name+
+              "&address="+salon_address+"&id="+salonID+"&stylistid=0";
+
+  var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">"+
+          "<a class=\"button\" href=\""+link+"\">"+time+"</a></button>";
+
+  return buttonStr;
+}
 
 function insertPic(data) {
     if (!data) {

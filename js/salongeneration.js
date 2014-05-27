@@ -8,6 +8,14 @@ var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
 var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var refNumber;
 var salonID;
+var NEW_STYLIST_NUMBER = 10;
+
+var firstnames = ['Arya', 'Ned', 'Zach', 'Jon', 'John', 'Harvey', 'Tim', 'Amanda', 'Emily', 'Stacy', 'David', 'Chao',
+				  'Yu', 'Michael', 'Thomas', 'Peter', "Meg", 'Shuangping', "Marcel", 'Lewis', 
+				  'Rohit', 'Sean', 'Daniel', 'Olivia', 'Lindsey', 'Chris', 'Jesus', 'Ted'];
+var lastnames = ['Austin', 'Anumba', 'Ryan', 'Feng', 'Liu', 'Zhou', 'Riesbeck', 'Gupta', 'Saager', 'Smith', 'Doe', 
+				 'Stark', 'Spector', 'Wilde', 'Clarke', 'Pope', 'Snow', 'Thorne', 'Santana', 'Leon', 'Wu', 'Dinda',
+				 'Norton', 'Pitt', 'Davis', 'Hamilton'];
 
 //get place details from google places api call
 function getPlaceDetails(){
@@ -65,27 +73,6 @@ function generateSalonPage(salon, status){
 	{
 		alert("ERROR: There was an error getting the details of your salon. Please go back and try again.");
 	}
-}
-
-//calls the Parse cloud function to store salon id, ref, name, address
-function storeSalonID(id, ref, name, address){
-	var jsonObj = {
-					salonid: String(id),
-					name: String(name),
-					address: String(address),
-					reference: String(ref)
-				  };
-
-	Parse.Cloud.run('storeSalonID', jsonObj, {
-		success: function(store){
-			console.log("Reference number stored");
-			return;
-		},
-		error: function(error){
-			console.log("Failed to store reference number");
-			return;
-		}
-	});
 }
 
 //appends the page header
@@ -168,11 +155,6 @@ function insertHoursInfo(hoursArray){
 	x.prepend(resultstr);
 }
 
-//function used to sort the opening hours object from Sunday to Saturday
-function sortOpeningTimes(a, b){
-	return a.open.day - b.open.day;
-}
-
 //inserts the various reviews
 function insertReviews(data) {
 	for (var i=0; i < data.length; i++) {
@@ -203,13 +185,18 @@ function getStylists(salon_name, salon_address, hours, sid){
 		success: function(stylists){
 			if(stylists.length < 1)
 			{
-				console.log("No stylists matching given salon id: "+sid);
-				getStylistsAppointments(salon_name, salon_address, hours, preset, datestr, false);
+				console.log("Creating new stylists");
+				//create 
+				for(var i = 0; i < NEW_STYLIST_NUMBER; i++)
+				{
+					createStylist(sid);
+				}
+				getStylists(salon_name, salon_address, hours, sid);
 			}
 			else
 			{
 				console.log("Using stylists from database");
-				getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr, true);
+				getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr);
 			}
 		},
 		error: function(error){
@@ -231,7 +218,7 @@ function makeTommorrowsDateStr(date){
 //Queries the database to get all the appointments for the given day and set of stylists
 //the db argument is used to see if we are using the preset stylists or not
 //if we are, we don't bother doing the query because it won't return anything
-function getStylistsAppointments(salon_name, salon_address, hours, stylists, date, db){
+function getStylistsAppointments(salon_name, salon_address, hours, stylists, date){
 	var x = $('.list-stylists');
 	var appointments = [];
 	var resultstr = "";
@@ -243,32 +230,24 @@ function getStylistsAppointments(salon_name, salon_address, hours, stylists, dat
 	var todayStart = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
 	var todayEnd = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
 	todayEnd.setDate(todayEnd.getDate()+1);
-	if(db)
-	{
-		var appointmentQuery = new Parse.Query('Appointments');
-		var stylist_ids = createStylistIDArray(stylists);
-		appointmentQuery.containedIn("StylistID", stylist_ids);
-		appointmentQuery.greaterThan("Time", todayStart);
-		appointmentQuery.lessThan("Time", todayEnd);
-		appointmentQuery.find({
-			success: function(appointments){
-				for(var i = 0; i < stylists.length; i++)
-				{
-					insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, date, stylists[i].id);
-				}
-			},
-			error: function(error){
-				console.log("Could not get appointments");
+	
+	var appointmentQuery = new Parse.Query('Appointments');
+	var stylist_ids = createStylistIDArray(stylists);
+	appointmentQuery.containedIn("StylistID", stylist_ids);
+	appointmentQuery.greaterThan("Time", todayStart);
+	appointmentQuery.lessThan("Time", todayEnd);
+	appointmentQuery.find({
+		success: function(appointments){
+			for(var i = 0; i < stylists.length; i++)
+			{
+				insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, date, stylists[i].id);
 			}
-		});
-	}
-	else
-	{
-		for(var i = 0; i < stylists.length; i++)
-		{
-			 insertStylistInfo(salon_name, salon_address, hours, stylists[i], appointments, date, 0);
+		},
+		error: function(error){
+			console.log("Could not get appointments");
 		}
-	}
+	});
+
 	x.prepend(headerstr);
 	return;
 }
@@ -312,21 +291,6 @@ function insertStylistInfo(salon_name, salon_address, hours, stylist, appointmen
 
 	var resultstr =  headerstr + appointHeaderStr + availableAppoints + "</div></div></div>";
 	x.append(resultstr);
-}
-
-//returns the hours object index if the salon is open
-//returns -1 if it is colosed
-function getTodaysIndex(today, hours){
-	var day = -1;
-	for(i = 0; i < hours.length; i++)
-	{
-		if(today == hours[i].open.day)
-		{
-			day = i;
-			return day;
-		}
-	}
-	return day;
 }
 
 //creates the rating string to append based on the average review rating
@@ -379,34 +343,6 @@ function createRatingString(rating){
 		return "";
 		console.log('Cannot get rating string');
 	}
-}
-
-//Takes in hour, minutes in 24 hour pair
-//and converts it to the appropriate time string
-//ie formatTime(14, 30) -> "2:30 PM"
-function formatTime(hour, minutes){
-	var h = hour;
-	var m = minutes;
-	var ampm = 'AM';
-	if(Number(hour) > 12)
-	{
-		h = hour - 12;
-	}
-	if(Number(hour) > 11)
-	{
-		ampm = 'PM';
-	}
-	if(Number(minutes) == 0)
-	{
-		m = "00";
-	}
-	if(Number(minutes) > 0 && Number(minutes) < 10)
-	{
-		m = "0"+String(minutes);
-	}
-
-	var retstr = String(h) + ":" + String(m) + " " + ampm;
-	return retstr;
 }
 
 //create the price string to append based on the google places api
@@ -597,6 +533,36 @@ function noReviewsAvailable(){
 	x.css('text-align', "center");
 }
 
-$(document).ready(function(){ getPlaceDetails();});
+function createStylist(sid){
+	var fname = chooseFirstName();
+	var lname = chooseLastName();
+	var fullname = fname +" "+ lname;
+	var jsonObj = {
+					name: fullname,
+					salonid: sid
+				  };
 
+	Parse.Cloud.run('createStylist', jsonObj,{
+		success: function(created){
+			console.log("Successfully created stylist");
+			return created;
+		},
+		error: function(error){
+			console.log("Failed to create stylists with error code: ", error);
+			return;
+		}
+	});	
+}
+
+function chooseFirstName(){
+	var index = Math.round(Math.random()*(firstnames.length-1));
+	return firstnames[index];
+}
+
+function chooseLastName(){
+	var index = Math.round(Math.random()*(lastnames.length-1));
+	return lastnames[index];
+}
+
+$(document).ready(function(){ getPlaceDetails();});
 // google.maps.event.addDomListener(window, 'onpaint', getPlaceDetails);
