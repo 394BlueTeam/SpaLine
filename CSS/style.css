@@ -131,6 +131,10 @@ h2, p, ol, ul, li {
 	overflow: hidden;
 }
 
+.panel-body {
+	padding: 0px !important;
+}
+
 .jumbotron {
 	/*padding: 0 !important;*/
 }
@@ -214,7 +218,6 @@ h2, p, ol, ul, li {
 	.mini {
 		padding: 10px 0 10px 0;
 		color: white;
-		font-size: 0.8em;
 		letter-spacing: 3px;
 		clear: both;
 	}
@@ -328,30 +331,6 @@ h2, p, ol, ul, li {
 		z-index: 90;
 	}
 
-/*----------------------------- find a salon -----------------------------*/
-/*========================================================================*/
-
-	/*.address {
-		float: left;
-	}
-
-	.distance {
-		float: right;
-	}
-
-	.rating {
-		clear: both;
-		float: left;
-	}
-
-	.cost {
-		float: right;
-	}
-
-	.times {
-		clear: both;
-	}*/
-
 
 /*==========Salon Results=========*/
 
@@ -359,15 +338,37 @@ h2, p, ol, ul, li {
 	display: block;
 }
 
-.thumbnail>img {
+.icon {
+	width: 75px;
 	float: left;
 }
+
+.salon-icon {
+	margin-left: 10px;
+	margin-top: 30px;
+	max-width: 150px;
+	max-height: 150px;
+}
+
+/*.thumbnail>img {
+	float: left;
+}*/
 
 .caption {
 	float: left;
 	text-align: left;
-	padding-left: 40px;
+	margin-left: 100px;
 }
+
+.media-object {
+	width: 65px;
+	height: 65px;
+}
+
+.img-circle {
+	width: 64px;
+}
+
 
 .info {
 	text-align: left;
@@ -427,15 +428,6 @@ h2, p, ol, ul, li {
 	display: inline;
 	margin: auto;
 	width: 100%;
-}
-
-.media-object {
-	width: 65px;
-	height: 65px;
-}
-
-.img-circle {
-	width: 64px;
 }
 
 /*==========Reservation Form Page=============*/
