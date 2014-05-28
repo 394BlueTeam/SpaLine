@@ -42,4 +42,11 @@
             <ul id="salonList" class="row"></ul>
         </div>
     </body>
+
+    <script type="text/javascript">
+      var emptyTest = $('.list-btns').is(':empty');
+      if (emptyTest) {
+        $('.panel-body').hide();
+      }
+    </script>
 </html>
