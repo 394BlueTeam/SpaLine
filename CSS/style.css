@@ -146,6 +146,9 @@ h2, p, ol, ul, li {
     text-align: center;
 }
 
+.distance {
+	float: right;
+}
 /*----------------------------- landing page -----------------------------*/
 /*========================================================================*/
 
@@ -350,9 +353,9 @@ h2, p, ol, ul, li {
 	max-height: 150px;
 }
 
-/*.thumbnail>img {
+.thumbnail {
 	float: left;
-}*/
+}
 
 .caption {
 	float: left;
@@ -369,6 +372,29 @@ h2, p, ol, ul, li {
 	width: 64px;
 }
 
+@media (min-width: @screen-sm-min) { 
+	.icon {
+		width: 50px;
+		float: left;
+	}
+
+	.img-rounded {
+		width: 64px;
+	}
+
+	.salon-icon {
+		margin-left: 10px;
+		margin-top: 30px;
+		max-width: 80px;
+		max-height: 80px;
+	}
+
+	.caption {
+		float: left;
+		text-align: left;
+		margin-left: 75px;
+	}
+}
 
 .info {
 	text-align: left;

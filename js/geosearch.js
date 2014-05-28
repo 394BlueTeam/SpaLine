@@ -239,14 +239,14 @@ function createAppointmentString(salon_name, salon_address, time, date, salonID)
 function insertPic(data) {
     if (!data) {
       var num = Math.floor((Math.random()*6)+1);
-      var pic = '<div class="icon"><img src="images/'+num+'.jpg" class="salon-icon" /></div>';
+      var pic = '<div class="icon"><img src="images/'+num+'.jpg" class="salon-icon img-rounded" /></div>';
       return pic;
     }
 
     else {
       var url = data[0].getUrl({'maxWidth': 150, 'maxHeight': 150});
       // console.log(url);
-      var pic = "<div class='icon'><img src='"+url+"' class='salon-icon'></div>";
+      var pic = "<div class='icon'><img src='"+url+"' class='salon-icon img-rounded'></div>";
       // console.log(pic);
       return pic;
       // console.log(pic);
