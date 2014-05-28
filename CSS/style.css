@@ -78,7 +78,6 @@ h2, p, ol, ul, li {
     color: black !important;
 }
 
-
 .wrapper {
 	margin-top: 50px;
 	margin-left: 7%;
@@ -146,9 +145,6 @@ h2, p, ol, ul, li {
     text-align: center;
 }
 
-.distance {
-	float: right;
-}
 /*----------------------------- landing page -----------------------------*/
 /*========================================================================*/
 
@@ -372,29 +368,24 @@ h2, p, ol, ul, li {
 	width: 64px;
 }
 
-@media (min-width: @screen-sm-min) { 
-	.icon {
-		width: 50px;
-		float: left;
-	}
-
-	.img-rounded {
-		width: 64px;
-	}
-
+@media only screen and (max-device-width:750px) {
 	.salon-icon {
-		margin-left: 10px;
+		margin-left: 5px;
 		margin-top: 30px;
-		max-width: 80px;
-		max-height: 80px;
+		max-width: 110px;
+		max-height: 110px;
 	}
 
 	.caption {
-		float: left;
+		float: none !important;
 		text-align: left;
-		margin-left: 75px;
+		margin-left: 115px;
 	}
 }
+
+/*.distance {
+	float: right;
+}*/
 
 .info {
 	text-align: left;
