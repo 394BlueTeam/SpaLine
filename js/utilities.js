@@ -103,13 +103,13 @@ function getURLParams(sParam){
 			return ret;
 		}
 	}
+	return -1;
 }
 
 function bookAppointment(){
 
-	var frm = document.getElementById('reservation-form');
-	var fName = frm.firstname.value;
-	var lName = frm.lastname.value;
+	var fName = $("input[name=firstname]").val();
+	var lName = $("input[name=lastname]").val();
 	var rName = fName + " " + lName;
 	var rDate = getURLParams('date');
 	var rTime = getURLParams('time');
@@ -117,12 +117,16 @@ function bookAppointment(){
 	var rAddress = getURLParams('address');
 	var stylist_id = getURLParams('stylistid');
 	var sid = getURLParams('id');
-	var rEmail = String(frm.email.value);
-	var rPhone = String(frm.phone.value);
+	var f_email = $("input[name=email]").val();
+	var rEmail = String(f_email);
+	var f_phone = $("input[name=phone]").val();
+	var rPhone = String(f_phone);
+
 	//check to make sure parameters are from url
 	if(!rTime || !rDate || !rSalon || !rAddress || !sid || !stylist_id)
 	{
-		alert("No time, date, or salon selected");
+		$('#alert3').show();
+	    setTimeout( "jQuery('#alert3').hide();", 7000 );
 		console.log("Time is: ", rTime);
 		console.log("Date is: ", rDate);
 		console.log("Salon is: ", rSalon);
@@ -134,7 +138,8 @@ function bookAppointment(){
 	//check to make sure form is completely filled out
 	if(rPhone == "" || rEmail =="" || fName == "" || lName == "")
 	{	
-		alert("There was an error submitting your reservation.\nPlease make sure the form is filled out completely and try submitting again.");
+		$('#alert3').show();
+	    setTimeout( "jQuery('#alert3').hide();", 7000 );
 		return;
 	}
 	//create json object
@@ -153,7 +158,10 @@ function bookAppointment(){
 		success: function(confirm){
 			console.log("email sent");
 			console.log(confirm);
-			alert("You have made your reservation! Check your email for confirmation.");
+			$('.jumbotron').hide();
+            $('#reservation-form').hide();
+	        $('#s-alert1').show();
+	        setTimeout( "jQuery('#s-alert1').hide(); window.location.replace('index.html');", 5000 );
 			return;
 		},
 		error: function(error){
@@ -163,13 +171,15 @@ function bookAppointment(){
 			//check to see if it was an invalid email address
 			if(eMessage.indexOf("valid email") > -1)
 			{
-				alert("Your email address is not valid. Check to make sure and try again");
+				$('#alert1').show();
+	            setTimeout( "jQuery('#alert1').hide();", 7000 );	
 				return;
 			}
 			else
 			{
 				
-				alert("There was an error reserving your time slot.");
+				$('#alert2').show();
+	            setTimeout( "jQuery('#alert2').hide();", 7000 );
 				return;
 			}
 		}

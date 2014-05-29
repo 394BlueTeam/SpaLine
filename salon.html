@@ -56,6 +56,8 @@
 
                     <div class="list-stylists">
                         Search: <input id="stylist-search" type="text" style="margin-bottom:20px"></input>
+                        Date: <input id="date-search" type="date"></input>
+                        <div type="button" class="btn btn-default" id="change-date">Change Date</div>
                     </div>
                 </div>
             </div>
@@ -228,6 +230,25 @@
                         $(this).show()
                     }
                 })
+            })
+
+
+            $('#change-date').click(function(){
+                var ref = getURLParams('ref');
+                var newDate = document.getElementById('date-search');
+                newDate =  newDate.value;
+                console.log("Ref is: ",  ref);
+                console.log("new date is: ", newDate);
+                var datePieces = newDate.split("-");
+                var newDateStr = datePieces[1]+"/"+datePieces[2]+"/"+datePieces[0];
+                if(newDate == "")
+                {
+                    alert("Please select a date");
+                }
+                else
+                {
+                    window.location.href = "salon.html?ref="+ref+"&date="+newDateStr;
+                }
             })
         </script>
     </body>
