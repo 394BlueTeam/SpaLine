@@ -167,9 +167,10 @@ function getResultDetails(places, response, status) {
              placeArray.push([place, initDistanceText[counter]]);
              distanceArray.push(initDistanceValue[counter]);
 
-             if (placeArray.length == Math.min(9, places.length)) {
+             upLimit = Math.min(9, places.length);
+             if (placeArray.length == upLimit) {
                var placeDetails = getPlaceSorted(placeArray, distanceArray);
-               for (var j = 0; j < 9; j++) {
+               for (var j = 0; j < upLimit; j++) {
                  addSalon(placeDetails[j][0], placeDetails[j][1]);
                }
              }
