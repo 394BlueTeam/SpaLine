@@ -368,7 +368,7 @@ h2, p, ol, ul, li {
 	width: 64px;
 }
 
-@media only screen and (max-device-width:750px) {
+@media screen and (max-device-width:750px) {
 	.salon-icon {
 		margin-left: 5px;
 		margin-top: 30px;
@@ -476,4 +476,17 @@ h2, p, ol, ul, li {
 }
 .indent{
 	margin-left: 20px;
+}
+
+#cancel-search{
+    display: inline;
+    background-color: #d3d3d3;
+    padding: 5px 10px;
+    border-radius: 50%;
+    line-height: 1;
+    display: none;
+}
+
+#cancel-search:hover{
+    cursor: pointer;
 }
