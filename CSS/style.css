@@ -413,6 +413,7 @@ h2, p, ol, ul, li {
 		float: none !important;
 		text-align: left;
 		margin-left: 105px;
+		width: initial;
 	}
 
 	.appts {
@@ -461,7 +462,7 @@ h2, p, ol, ul, li {
 
 	.panel-body {
 		padding: 4px 5px 0px 5px;
-		height: 43px;
+		height: 55px;
 	}
 }
 
