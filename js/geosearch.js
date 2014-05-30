@@ -140,13 +140,16 @@ function addSalon(place, distance){
         var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
         var buttonHeader = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
         var appointmentStr = createAppointmentButtons(place);
+        console.log("Appointment string is: ", appointmentStr);
         if(appointmentStr == "")
         {
           buttons = "<p>Sorry, it looks like this salon has no more available appointments today</p>";
           buttons += "<p>Click on the salon name to choose an appointment for a future date</p>";
         }
-        buttons = appointHeaderStr +appointmentStr + "</div></div>";
-
+        else
+        {
+          buttons = appointHeaderStr +appointmentStr + "</div></div>";
+        }
       }
       else
       {
