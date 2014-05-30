@@ -131,7 +131,7 @@ function addSalon(place, distance){
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
     }
 
-    var buttons = "";
+    var buttons = "<div class='appts'>";
     if(RUSH)
     {
       if(!!place.opening_hours)
@@ -143,27 +143,30 @@ function addSalon(place, distance){
         console.log("Appointment string is: ", appointmentStr);
         if(appointmentStr == "")
         {
-          buttons = "<p>Sorry, it looks like this salon has no more available appointments today</p>";
-          buttons += "<p>Click on the salon name to choose an appointment for a future date</p>";
+          buttons = "<p class='btn_alert'>Sorry, it looks like this salon has no more available appointments today</p>";
+          buttons += "<p class='btn_alert'>Click on the salon name to choose an appointment for a future date</p></div>";
         }
         else
         {
-          buttons = appointHeaderStr +appointmentStr + "</div></div>";
+          buttons = appointHeaderStr +appointmentStr + "</div>";
         }
       }
       else
       {
-        buttons = "<p>Sorry, it looks like this salon's hours are not available</p>";
-        buttons += "<p>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p>";
+        buttons = "<p class='btn_alert'>Sorry, it looks like this salon's hours are not available</p>";
+        buttons += "<p class='btn_alert'>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p></div>";
       }
     }
     // console.log("Buttons is: ",buttons);
 
     html += "<div class='caption'><h3 class='name'><a href='salon.html?ref="+place.reference+"'>"+place.name+"</a></h3>";
-    html += "<p class='address'>"+place.formatted_address+"</p>"
-    html += "<p class='distance'>"+distance+"</p>"
+    var end = ", IL, United States";
+    var address = place.formatted_address;  
+    var short_address = address.substring(0,(address.length - end.length));
+    html += "<p class='address'>"+short_address+"</p>"
+    html += "<p class='distance'>"+distance+"</p></div>"
     html += buttons
-    html += "</div></div></li>"
+    html += "</div></li>"
 
   //     <p class="rating"><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i></p>
   // <p class="cost"><i class="fa fa-usd"></i><i class="fa fa-usd"></i></p>
