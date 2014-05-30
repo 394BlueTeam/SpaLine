@@ -225,8 +225,8 @@ function addSalon(place, distance){
     var short_address = address.substring(0,(address.length - end.length));
     html += "<p class='rate'>"+rating+"</p>"
     html += "<p class='address'>"+short_address+"</p>"
-    html += "<p class='distance'>"+distance+"</p></div>"
-    html += "<p class='price'>"+price+"</p>"
+    html += "<p class='distance'>"+distance+"</p>"
+    html += "<p class='price'>"+price+"</p></div>"
     html += buttons
     html += "</li>"
 
