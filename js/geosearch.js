@@ -143,7 +143,7 @@ function addSalon(place, distance){
         console.log("Appointment string is: ", appointmentStr);
         if(appointmentStr == "")
         {
-          buttons = "<p class='btn_alert'>Sorry, it looks like this salon has no more available appointments today</p>";
+          buttons += "<p class='btn_alert'>Sorry, it looks like this salon has no more available appointments today</p>";
           buttons += "<p class='btn_alert'>Click on the salon name to choose an appointment for a future date</p></div>";
         }
         else
@@ -153,7 +153,7 @@ function addSalon(place, distance){
       }
       else
       {
-        buttons = "<p class='btn_alert'>Sorry, it looks like this salon's hours are not available</p>";
+        buttons += "<p class='btn_alert'>Sorry, it looks like this salon's hours are not available</p>";
         buttons += "<p class='btn_alert'>Try giving them a call at "+place.formatted_phone_number+" to make an appointment</p></div>";
       }
     }
