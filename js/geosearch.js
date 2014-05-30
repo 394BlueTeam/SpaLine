@@ -142,26 +142,38 @@ function getPlaceSorted(places, distanceArray) {
   return result;
 }
 
-function getResultDetails(results, response, status) {
+function getResultDetails(places, response, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) 
   {
-    var distanceArray = [];
-    for (var i = 0; i < results.length; i++) {
-      distanceArray.push(response.rows[0].elements[i].distance.text);
+    var initDistanceArray = [];
+    for (var i = 0; i < places.length; i++) {
+      initDistanceArray.push(response.rows[0].elements[i].distance.text);
     }
-    places = getPlaceSorted(results, distanceArray);
-    distanceArray = getPlaceSorted(distanceArray, distanceArray);
-    console.log(places);
-    console.log(distanceArray);
-    for (var i = 0; i < results.length; i++) {
+    //places = getPlaceSorted(results, distanceArray);
+    //distanceArray = getPlaceSorted(distanceArray, distanceArray);
+    var placeArray = [];
+    var distanceArray = [];
+    for (var i = 0; i < places.length; i++) {
       var request = {
         reference: places[i].reference
       };
       (function(counter) {
          service.getDetails(request, function(place, status) {
-           addSalon(place, distanceArray[counter])
+           if (status == google.maps.places.PlacesServiceStatus.OK) {
+             placeArray.push(place);
+             distanceArray.push(initDistanceArray[counter]);
+             if (placeArray.length == Math.min(9, places.length)) {
+               console.log(placeArray);
+               var placeDetails = getPlaceSorted(placeArray, distanceArray);
+               var distanceDetails = getPlaceSorted(distanceArray, distanceArray);
+               for (var j = 0; j < 9; j++) {
+                 addSalon(placeDetails[j], distanceDetails[j]);
+               }
+             }
+           }
          });
       })(i);
+
     }
   }
 }
