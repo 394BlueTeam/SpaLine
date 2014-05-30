@@ -26,7 +26,12 @@
     	<div id="map-canvas"></div> 
         
         <!-- HEADER -->
-        <div class="header"></div>
+        <div class="header">
+            <span>
+                <a href="index.html" id="home" style="float:right;color:black !important;margin-right:5px;font-size:22px"><i class="fa fa-home fa-lg"></i></a>
+            </span>
+        </div>
+
 
         <div class="btn-group btn-group-justified" style="position: fixed; bottom: 0;">
             <div class="btn-group">
@@ -56,6 +61,7 @@
 
                     <div class="list-stylists">
                         Search: <input id="stylist-search" type="text" style="margin-bottom:20px"></input>
+                        <div id="cancel-search" onclick="clearSearch()">X</div>
                         Date: <input id="date-search" type="date"></input>
                         <div type="button" class="btn btn-default" id="change-date">Change Date</div>
                     </div>
@@ -250,6 +256,13 @@
                     window.location.href = "salon.html?ref="+ref+"&date="+newDateStr;
                 }
             })
+
+            function clearSearch(){
+            $('#stylist-search').val('')
+            $('.panel').each(function(){  
+                        $(this).show()
+                })
+        }
         </script>
     </body>
 </html>

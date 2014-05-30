@@ -248,7 +248,7 @@ h2, p, ol, ul, li {
 		z-index: 10;
 		padding: 20px 65px 20px 20px;
 		font-family: inherit;
-		font-size: 20px;
+		font-size: 14px;
 		color: #2c3e50;
 	}
 
@@ -477,3 +477,16 @@ h2, p, ol, ul, li {
 .indent{
 	margin-left: 20px;
 }
+
+#cancel-search{
+    display: inline;
+    background-color: #d3d3d3;
+    padding: 5px 10px;
+    border-radius: 50%;
+    line-height: 1;
+    display: none;
+}
+
+#cancel-search:hover{
+    cursor: pointer;
+ }
