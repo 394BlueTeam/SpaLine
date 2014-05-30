@@ -130,10 +130,6 @@ h2, p, ol, ul, li {
 	overflow: hidden;
 }
 
-.panel-body {
-	padding: 0px !important;
-}
-
 .jumbotron {
 	/*padding: 0 !important;*/
 }
@@ -198,7 +194,8 @@ h2, p, ol, ul, li {
 		top: 50%;
 		left: 50%;
 		margin-top: -100px;
-		margin-left: -114px;
+		margin-left: -150px;
+                          width:300px;
 	}
 
 	#main-btns > a {
@@ -217,6 +214,7 @@ h2, p, ol, ul, li {
 	.mini {
 		padding: 10px 0 10px 0;
 		color: white;
+		font-size: 0.8em;
 		letter-spacing: 3px;
 		clear: both;
 	}
@@ -248,7 +246,7 @@ h2, p, ol, ul, li {
 		z-index: 10;
 		padding: 20px 65px 20px 20px;
 		font-family: inherit;
-		font-size: 20px;
+		font-size: 14px;
 		color: #2c3e50;
 	}
 
@@ -368,10 +366,15 @@ h2, p, ol, ul, li {
 	width: 64px;
 }
 
-@media only screen and (max-device-width:750px) {
+.btn_alert {
+	margin-top: 8px;
+	clear: both;
+}
+
+@media screen and (max-device-width:750px) {
 	.salon-icon {
 		margin-left: 5px;
-		margin-top: 30px;
+		margin-top: 10px;
 		max-width: 110px;
 		max-height: 110px;
 	}
@@ -381,11 +384,29 @@ h2, p, ol, ul, li {
 		text-align: left;
 		margin-left: 115px;
 	}
+
+	.name {
+		font-weight: 700;
+		font-size: 1.0em;
+		margin-top: 0 !important;
+	}
+	
+	.address {
+		font-size: 0.7em;
+	}
+
+	.distance {
+		float: right;
+		font-size: 0.7em;
+	}
+
+	.btn_alert {
+		font-size: 0.7em;
+	}
 }
 
-/*.distance {
-	float: right;
-}*/
+
+
 
 .info {
 	text-align: left;
@@ -412,6 +433,7 @@ h2, p, ol, ul, li {
 .location, .details, .list-stylists {
 	margin-top: 40px;
 }
+
 .services {
 	display: none;
 }
@@ -419,6 +441,7 @@ h2, p, ol, ul, li {
 .reviews {
 	display: none;
 	text-align: left;
+	margin-top: 20px;
 }
 
 #salon-results-heading{
@@ -446,6 +469,21 @@ h2, p, ol, ul, li {
 	margin: auto;
 	width: 100%;
 }
+
+.media-object {
+	width: 65px;
+	height: 65px;
+}
+
+.img-circle {
+	width: 64px;
+}
+
+.panel-list {
+	height: 60px;
+	overflow: hidden;
+}
+
 
 /*==========Reservation Form Page=============*/
 #reservation-submit{
@@ -476,4 +514,17 @@ h2, p, ol, ul, li {
 }
 .indent{
 	margin-left: 20px;
+}
+
+#cancel-search{
+    display: inline;
+    background-color: #d3d3d3;
+    padding: 5px 10px;
+    border-radius: 50%;
+    line-height: 1;
+    display: none;
+}
+
+#cancel-search:hover{
+    cursor: pointer;
 }
