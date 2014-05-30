@@ -301,7 +301,7 @@ function createAppointmentString(salon_name, salon_address, time, date, salonID)
 function insertPic(data) {
     if (!data) {
       var num = Math.floor((Math.random()*6)+1);
-      var pic = '<div class="icon img-rounded" style="background-image: url(\'../images'+num+'.jpg\');"></div>';
+      var pic = '<div class="icon img-rounded" style="background-image: url(\'../images/'+num+'.jpg\');"></div>';
       // var pic = '<div class="icon"><img src="images/'+num+'.jpg" class="salon-icon img-rounded" /></div>';
       return pic;
     }
