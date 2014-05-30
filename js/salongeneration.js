@@ -9,6 +9,8 @@ var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
 var refNumber;
 var salonID;
 var NEW_STYLIST_NUMBER = 10;
+var TODAY = true;
+var VALID_DATE = true;
 
 var firstnames = ['Arya', 'Ned', 'Zach', 'Jon', 'John', 'Harvey', 'Tim', 'Amanda', 'Emily', 'Stacy', 'David', 'Chao',
 				  'Yu', 'Michael', 'Thomas', 'Peter', "Meg", 'Shuangping', "Marcel", 'Lewis', 
@@ -175,7 +177,7 @@ function insertReviews(data) {
 function getStylists(salon_name, salon_address, hours, sid){
 	var preset = ['Harvey Spector', 'Olivia Pope', 'Arya Stark', 'Jon Snow', 'Daniel Clark', 'Emily Thorne'];
 	var date = new Date();
-	var datestr = makeTommorrowsDateStr(date);
+	var datestr = getDateStr();
 
 	var jsonObj = {
 					salonid: String(sid)
@@ -215,38 +217,73 @@ function makeTommorrowsDateStr(date){
 	return dstring;
 }
 
+function getDateStr(){
+	var today = new Date(Date.now());
+	var todayString =  makeTodayDateStr();
+	var todayDateObj = new Date(todayString);
+	var selectedDateStr =  getURLParams('date');
+	var selectedDateObj = new Date(selectedDateStr);
+	console.log("Today String is: ", todayString);
+	console.log("Selected String is: ", selectedDateStr);
+
+	if(selectedDateStr < 0 || selectedDateObj == todayDateObj)
+	{
+		return todayString;
+	}
+	else
+	{
+		if(selectedDateObj < todayDateObj)
+		{
+			VALID_DATE = false;
+			return selectedDateStr;
+		}
+		else
+		{
+			TODAY = false;
+			return selectedDateStr;
+		}
+	}
+}
+
 //Queries the database to get all the appointments for the given day and set of stylists
 //the db argument is used to see if we are using the preset stylists or not
 //if we are, we don't bother doing the query because it won't return anything
-function getStylistsAppointments(salon_name, salon_address, hours, stylists, date){
+function getStylistsAppointments(salon_name, salon_address, hours, stylists, datestr){
 	var x = $('.list-stylists');
 	var appointments = [];
 	var resultstr = "";
-	var today = new Date();
-	today.setDate(today.getDate()+1);
-	var day = today.getDay();
-	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ dayNames[day] +", "+ date+"</h3>";
-	var dateEles = date.split("/");
-	var todayStart = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
-	var todayEnd = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
-	todayEnd.setDate(todayEnd.getDate()+1);
-	
-	var appointmentQuery = new Parse.Query('Appointments');
-	var stylist_ids = createStylistIDArray(stylists);
-	appointmentQuery.containedIn("StylistID", stylist_ids);
-	appointmentQuery.greaterThan("Time", todayStart);
-	appointmentQuery.lessThan("Time", todayEnd);
-	appointmentQuery.find({
-		success: function(appointments){
-			for(var i = 0; i < stylists.length; i++)
-			{
-				insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, date, stylists[i].id);
+	var date = new Date(datestr);
+	var day = date.getDay();
+	var headerstr = "<h3 class=\"divider\">Stylist Appointments for "+ dayNames[day] +", "+ datestr+"</h3>";
+
+	if(VALID_DATE)
+	{
+		var dateEles = datestr.split("/");
+		var todayStart = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
+		var todayEnd = new Date(dateEles[2], dateEles[0]-1, dateEles[1]);
+		todayEnd.setDate(todayEnd.getDate()+1);
+		
+		var appointmentQuery = new Parse.Query('Appointments');
+		var stylist_ids = createStylistIDArray(stylists);
+		appointmentQuery.containedIn("StylistID", stylist_ids);
+		appointmentQuery.greaterThan("Time", todayStart);
+		appointmentQuery.lessThan("Time", todayEnd);
+		appointmentQuery.find({
+			success: function(appointments){
+				for(var i = 0; i < stylists.length; i++)
+				{
+					insertStylistInfo(salon_name, salon_address, hours, stylists[i].get('Name'), appointments, datestr, stylists[i].id);
+				}
+			},
+			error: function(error){
+				console.log("Could not get appointments");
 			}
-		},
-		error: function(error){
-			console.log("Could not get appointments");
-		}
-	});
+		});
+	}
+	else
+	{
+		notifyInvalidDate();
+	}
 
 	x.prepend(headerstr);
 	return;
@@ -275,6 +312,7 @@ function insertStylistInfo(salon_name, salon_address, hours, stylist, appointmen
 	var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
 	var availableAppoints;
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
+	var resultstr = "";
 	headerstr += "<h3 class=\"panel-title\">"+stylist+"</h3></div>";
 
 	today = today.getDay();
@@ -289,8 +327,24 @@ function insertStylistInfo(salon_name, salon_address, hours, stylist, appointmen
 		availableAppoints = generateTimeButtons(salon_name, salon_address, hours, appointments, date, stylist_id, todaysIndex);
 	}
 
-	var resultstr =  headerstr + appointHeaderStr + availableAppoints + "</div></div></div>";
+	if(availableAppoints == "")
+	{
+		resultstr = headerstr + "<p>&#160;Sorry, this stylist does not have any more available appointments today</p></div>";
+	}
+	else
+	{
+		resultstr =  headerstr + appointHeaderStr + availableAppoints + "</div></div></div>";
+	}
+
 	x.append(resultstr);
+}
+
+function notifyInvalidDate(){
+	var x = $('.list-stylists');
+	var notice = "<h3>Sorry, it looks like you entered in a date that is in the past</h3>";
+	notice += "<p>Try selecting another date to see available appointments</p>";
+	x.append(notice);
+	return 0;	
 }
 
 //creates the rating string to append based on the average review rating
@@ -405,6 +459,9 @@ function getAvailableTimes(hours, appointments, stylist_id, todayIndex){
 	var startM = Number(hours[todayIndex].open.minutes);
 	var closeH = Number(hours[todayIndex].close.hours);
 	var closeM = Number(hours[todayIndex].close.minutes);
+	var now = getCurrentTimePieces();
+	var nowH = now[0];
+	var nowM = now[1];
 
 	var unavailable = extractStylistAppointments(appointments, stylist_id);
 
@@ -416,22 +473,36 @@ function getAvailableTimes(hours, appointments, stylist_id, todayIndex){
 
 	var available = new Array();
 
-	//NOTE: I HAVE NO IDEA WHY TWO LOOPS OF THE SAME THING ARE NEEDED HERE
-	//BUT FOR SOME REASON WHEN I COMMENT IT OUT IT ONLY SHOWS THE FIRST APPOINTMENT TIME
-	//I AM SO CONFUSED!?!?!
-	//I HOPE MY CAPS LOCK IS INDICATING MY CONFUSION
-	for(var i = startH; i < closeH; i++)
-	{
 
+	if(TODAY)
+	{
 		for(var i = startH; i < closeH; i++)
 		{
-				if(unavailableHours.indexOf(i) < 0 && !availableContains(i, available))
-				{
-					available.push([i, startM]);
-					break;
-				}
+			if(unavailableHours.indexOf(i) < 0 && (i > nowH || (startM > nowM && i == nowH)))
+			{
+				available.push([i, startM]);
+			}
 		}
+	}
+	else
+	{
+		//NOTE: I HAVE NO IDEA WHY TWO LOOPS OF THE SAME THING ARE NEEDED HERE
+		//BUT FOR SOME REASON WHEN I COMMENT IT OUT IT ONLY SHOWS THE FIRST APPOINTMENT TIME
+		//I AM SO CONFUSED!?!?!
+		//I HOPE MY CAPS LOCK IS INDICATING MY CONFUSION
+		for(var i = startH; i < closeH; i++)
+		{
 
+			for(var i = startH; i < closeH; i++)
+			{
+					if(unavailableHours.indexOf(i) < 0 && !availableContains(i, available))
+					{
+						available.push([i, startM]);
+						break;
+					}
+			}
+
+		}
 	}
 	var formattedTimes = new Array();
 
@@ -500,23 +571,6 @@ function makeButtonString(salon_name, salon_address, time, date, stylist_id){
 	var buttonStr = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">"+
 					"<a class=\"button\" href=\""+link+"\">"+time+"</a></button>";
 	return buttonStr;
-}
-
-function getURLParams(sParam){
-	var pageURL = window.location.search.substr(1);
-	var URLvars = pageURL.split('&');
-	for(var i=0; i < URLvars.length; i++)
-	{
-		var name = URLvars[i].split('=');
-		if(name[0] == sParam)
-		{
-			var ret = name[1].replace(/%20/g, " ");
-			ret = ret.replace(/%2D/g, "-");
-			ret = ret.replace(/%3A/g, ":");
-			ret = ret.replace(/%2C/g, ",");
-			return ret;
-		}
-	}
 }
 
 //For the cases where store hours are unavailable, lets the person know they should try giving them a call
