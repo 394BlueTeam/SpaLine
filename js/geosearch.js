@@ -18,8 +18,8 @@ function getUserLocation(){
   else
   {
     console.log("Handle no geolocation 1");
-      browserSupportFlag = false;
-      handleNoGeolocation(browserSupportFlag);
+    browserSupportFlag = false;
+    handleNoGeolocation(browserSupportFlag);
   }
 }
 
@@ -43,7 +43,8 @@ function requestSalonInformation(position){
                   };
 
     service = new google.maps.places.PlacesService(map);
-    service.nearbySearch(request, getResultDetails);
+    //service.nearbySearch(request, getResultDetails);
+    service.nearbySearch(request, getResultDistance);
   }
   else
   {
@@ -80,7 +81,8 @@ function requestSpecificSalonInformation(position){
                   };
 
     service = new google.maps.places.PlacesService(map);
-    service.nearbySearch(request, getResultDetails);
+    //service.nearbySearch(request, getResultDetails);
+    service.nearbySearch(request, getResultDistance);
   }
   else
   {
@@ -89,38 +91,82 @@ function requestSpecificSalonInformation(position){
   }
 }
 
-function getResultDetails(results, status) {
-  if (status == google.maps.places.PlacesServiceStatus.OK) 
-  {
-    for (var i = 0; i < results.length; i++) 
-    {
-      var request = {
-                      reference: results[i].reference
-                    }
-        service.getDetails(request, getResultDistance);
-    }
-  }
-  else if(status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS)
-  {
-    notifyNoResults();
-  }
-}
 var distanceService = new google.maps.DistanceMatrixService();
 
 function getResultDistance(place, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) {
-        distanceService.getDistanceMatrix(
-      {
-        origins: [requestLocation],
-        destinations: [place.geometry.location],
-        travelMode: google.maps.TravelMode.DRIVING,
-        unitSystem: google.maps.UnitSystem.IMPERIAL
-      }, function(response, status){addSalon(place, response.rows[0].elements[0].distance.text)});
+    var locationArray = [];
+    for (var i = 0; i < place.length; i++) {
+      locationArray.push(place[i].geometry.location);
+    }
+    distanceService.getDistanceMatrix(
+    {
+      origins: [requestLocation],
+      destinations: locationArray,
+      travelMode: google.maps.TravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.IMPERIAL
+    //}, function(response, status){addSalon(place, response.rows[0].elements[0].distance.text)});
+    }, function(response, status) {
+      getResultDetails(place, response, status)
+    });
+  }
+  else if (status == google.maps.places.PlacesServiceStatus.ZERO_RESULTS)
+  {
+    notifyNoResults();
+  }
+}
+
+function sortWithIndices(distanceArray) {
+  var toSort = [];
+  for (var i = 0; i < distanceArray.length; i++) {
+    toSort.push([parseFloat(distanceArray[i].split(" ")[0]), i]);
+  }
+
+  toSort.sort(function(left, right) {
+    return left[0] < right[0] ? -1 : 1;
+  });
+
+  toSort.sortIndices = [];
+  for (var j = 0; j < toSort.length; j++) {
+    toSort.sortIndices.push(toSort[j][1]);
+  }
+  return toSort.sortIndices;
+}
+
+function getPlaceSorted(places, distanceArray) {
+  var result = [];
+  orderArray = sortWithIndices(distanceArray);
+  for (var i = 0; i < distanceArray.length; i++) {
+    result[i] = places[orderArray[i]];
+  }
+  return result;
+}
+
+function getResultDetails(results, response, status) {
+  if (status == google.maps.places.PlacesServiceStatus.OK) 
+  {
+    var distanceArray = [];
+    for (var i = 0; i < results.length; i++) {
+      distanceArray.push(response.rows[0].elements[i].distance.text);
+    }
+    places = getPlaceSorted(results, distanceArray);
+    distanceArray = getPlaceSorted(distanceArray, distanceArray);
+    console.log(places);
+    console.log(distanceArray);
+    for (var i = 0; i < results.length; i++) {
+      var request = {
+        reference: places[i].reference
+      };
+      (function(counter) {
+         service.getDetails(request, function(place, status) {
+           addSalon(place, distanceArray[counter])
+         });
+      })(i);
+    }
   }
 }
 
 function addSalon(place, distance){
-    // console.log(place);
     pic = insertPic(place.photos);
     if (pic != '') {
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
