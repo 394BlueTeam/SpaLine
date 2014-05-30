@@ -343,21 +343,12 @@ h2, p, ol, ul, li {
 }
 
 .icon {
-	margin-left: 10px;
+	margin-left: 30px;
 	margin-top: 30px;
-	width: 150px;
-	height: 150px;
+	width: 125px;
+	height: 125px;
 	float: left;
-}
-
-.thumbnail {
-	float: left;
-}
-
-.caption {
-	float: left;
-	text-align: left;
-	margin-left: 100px;
+	background-size: 100% 100%;
 }
 
 .media-object {
@@ -369,16 +360,35 @@ h2, p, ol, ul, li {
 	width: 64px;
 }
 
+.thumbnail {
+	float: left;
+}
+
+.caption {
+	float: left;
+	text-align: left;
+	margin-left: 35px;
+}
+
+.name {
+	font-weight: 700;
+}
+
 .appts {
-	margin-top: 24px;
 	background: #f1f1f1;
 	clear: both;
 	height: 100%;
 }
 
+.rate, .address {
+	float: left;
+}
+
+.distance, .price {
+	float: right;
+}
 @media screen and (max-device-width:750px) {
 	.salon-icon {
-		
 		max-width: 110px;
 		max-height: 110px;
 	}
@@ -394,7 +404,6 @@ h2, p, ol, ul, li {
 	}
 
 	.name {
-		font-weight: 700;
 		font-size: 1.2em;
 		margin-top: 0 !important;
 		margin-top: 2px !important;
@@ -423,19 +432,12 @@ h2, p, ol, ul, li {
 	}
 }
 
-
-
-
 .info {
 	text-align: left;
 }
 
 .quick-info {
 	margin-top: 10%;
-}
-
-.name {
-	font-weight: 700;
 }
 
 .quick-info > h2, .quick-info > h5, .quick-info > p {

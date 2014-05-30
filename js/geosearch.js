@@ -180,6 +180,8 @@ function getResultDetails(places, response, status) {
 
 function addSalon(place, distance){
     pic = insertPic(place.photos);
+    var rating = createRatingString(place.user_ratings_total);
+    var price = createPriceString(place.price_level);
     if (pic != '') {
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";
       html += pic; 
@@ -221,8 +223,10 @@ function addSalon(place, distance){
     var end = ", IL, United States";
     var address = place.formatted_address;  
     var short_address = address.substring(0,(address.length - end.length));
+    html += "<p class='rate'>"+rating+"</p>"
     html += "<p class='address'>"+short_address+"</p>"
     html += "<p class='distance'>"+distance+"</p></div>"
+    html += "<p class='price'>"+price+"</p>"
     html += buttons
     html += "</li>"
 
@@ -231,6 +235,87 @@ function addSalon(place, distance){
     
     $('#salonList').append(html);
 }
+
+
+//create the price string to append based on the google places api
+function createPriceString(price){
+  var dollarstr = "<i class=\"fa fa-usd\"></i>";
+  var retstr = "";
+  if(isNaN(price))
+  {
+    var num = Math.floor((Math.random()*3)+1);
+    for(i = 0; i < num; i++)
+    {
+      retstr += dollarstr;
+    }
+  }
+  else
+  {
+    for(i = 0; i < price; i++)
+    {
+      retstr += dollarstr;
+    }
+  }
+
+  return retstr;
+}
+
+
+//creates the rating string to append based on the average review rating
+function createRatingString(rating){
+  var full = "<i class=\"fa fa-star\"></i>";
+  var half = "<i class=\"fa fa-star-half-o\"></i>";
+  var num = 0;
+
+  if(isNaN(rating)) {
+    num = Math.floor((Math.random()*5)+1);
+  }
+  if(rating <= 0.5 || num == 0)
+  {
+    return half;
+  }
+  if(rating > 0.5 && rating <= 1.25 || num == 1)
+  {
+    return full;
+  }
+  if(rating > 1.25 && rating <= 1.75)
+  {
+    return full+half;
+  }
+  if(rating > 1.75 && rating <= 2.25 || num == 2)
+  {
+    return full+full;
+  }
+  if(rating > 2.25 && rating <= 2.75)
+  {
+    return full+full+half;
+  }
+  if(rating > 2.75 && rating <= 3.25 || num == 3)
+  {
+    return full+full+full;
+  }
+  if(rating > 3.25 && rating <= 3.75)
+  {
+    return full+full+full+half;
+  }
+  if(rating > 3.75 && rating <= 4.25 || num == 4)
+  {
+    return full+full+full+full;
+  }
+  if(rating > 4.25 && rating <= 4.75)
+  {
+    return full+full+full+full+half;
+  }
+  if(rating > 4.75 && rating <= 5 || num == 5)
+  {
+    return full+full+full+full+full;
+  }
+  else
+  {
+    console.log('Error: Cannot get rating string');
+  }
+}
+
 
 function createAppointmentButtons(place){
   var name = place.name;
@@ -301,7 +386,7 @@ function createAppointmentString(salon_name, salon_address, time, date, salonID)
 function insertPic(data) {
     if (!data) {
       var num = Math.floor((Math.random()*6)+1);
-      var pic = '<div class="icon img-rounded" style="background-image: url(\'../images/'+num+'.jpg\');"></div>';
+      var pic = '<div class="icon img-rounded" style="background: url(\'images/'+num+'.jpg\') center no-repeat;"></div>';
       // var pic = '<div class="icon"><img src="images/'+num+'.jpg" class="salon-icon img-rounded" /></div>';
       return pic;
     }
