@@ -119,7 +119,7 @@ function getResultDistance(place, status) {
 function sortWithIndices(distanceArray) {
   var toSort = [];
   for (var i = 0; i < distanceArray.length; i++) {
-    toSort.push([parseFloat(distanceArray[i].split(" ")[0]), i]);
+    toSort.push([distanceArray[i], i]);
   }
 
   toSort.sort(function(left, right) {
@@ -135,6 +135,7 @@ function sortWithIndices(distanceArray) {
 
 function getPlaceSorted(places, distanceArray) {
   var result = [];
+  console.log(distanceArray);
   orderArray = sortWithIndices(distanceArray);
   for (var i = 0; i < distanceArray.length; i++) {
     result[i] = places[orderArray[i]];
@@ -145,35 +146,36 @@ function getPlaceSorted(places, distanceArray) {
 function getResultDetails(places, response, status) {
   if (status == google.maps.places.PlacesServiceStatus.OK) 
   {
-    var initDistanceArray = [];
+    var initDistanceValue = [];
+    var initDistanceText = [];
     for (var i = 0; i < places.length; i++) {
-      initDistanceArray.push(response.rows[0].elements[i].distance.text);
+      initDistanceValue.push(response.rows[0].elements[i].distance.value);
+      initDistanceText.push(response.rows[0].elements[i].distance.text);
     }
-    //places = getPlaceSorted(results, distanceArray);
-    //distanceArray = getPlaceSorted(distanceArray, distanceArray);
+
     var placeArray = [];
     var distanceArray = [];
     for (var i = 0; i < places.length; i++) {
-      var request = {
-        reference: places[i].reference
-      };
+
+      // Bind the function with counter i
       (function(counter) {
+         var request = {
+           reference: places[counter].reference
+         };
          service.getDetails(request, function(place, status) {
            if (status == google.maps.places.PlacesServiceStatus.OK) {
-             placeArray.push(place);
-             distanceArray.push(initDistanceArray[counter]);
+             placeArray.push([place, initDistanceText[counter]]);
+             distanceArray.push(initDistanceValue[counter]);
+
              if (placeArray.length == Math.min(9, places.length)) {
-               console.log(placeArray);
                var placeDetails = getPlaceSorted(placeArray, distanceArray);
-               var distanceDetails = getPlaceSorted(distanceArray, distanceArray);
                for (var j = 0; j < 9; j++) {
-                 addSalon(placeDetails[j], distanceDetails[j]);
+                 addSalon(placeDetails[j][0], placeDetails[j][1]);
                }
              }
            }
          });
       })(i);
-
     }
   }
 }
