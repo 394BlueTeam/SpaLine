@@ -372,6 +372,7 @@ h2, p, ol, ul, li {
 
 .name {
 	font-weight: 700;
+	margin-bottom: 2px !important;
 }
 
 .appts {
@@ -380,13 +381,18 @@ h2, p, ol, ul, li {
 	height: 100%;
 }
 
-.rate, .address {
+.address {
 	float: left;
 }
 
-.distance, .price {
+.distance {
 	float: right;
 }
+
+.price {
+	clear:both;
+}
+
 @media screen and (max-device-width:750px) {
 	.salon-icon {
 		max-width: 110px;
@@ -420,7 +426,7 @@ h2, p, ol, ul, li {
 	}
 
 	.btn_alert {
-		font-size: 0.7em;
+		font-size: 0.8em;
 	}
 
 	.icon {
