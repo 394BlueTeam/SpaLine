@@ -128,6 +128,7 @@ h2, p, ol, ul, li {
 .panel-body {
 	height: 60px;
 	overflow: hidden;
+	clear: both;
 }
 
 .jumbotron {
@@ -366,9 +367,11 @@ h2, p, ol, ul, li {
 	width: 64px;
 }
 
-.btn_alert {
-	margin-top: 8px;
+.appts {
+	margin-top: 24px;
+	background: #f1f1f1;
 	clear: both;
+	height: 100%;
 }
 
 @media screen and (max-device-width:750px) {
@@ -385,19 +388,25 @@ h2, p, ol, ul, li {
 		margin-left: 115px;
 	}
 
+	.appts {
+		margin-top: 24px;
+	}
+
 	.name {
 		font-weight: 700;
-		font-size: 1.0em;
+		font-size: 1.2em;
 		margin-top: 0 !important;
+		margin-top: 2px !important;
 	}
 	
 	.address {
-		font-size: 0.7em;
+		font-size: 0.8em;
 	}
 
 	.distance {
 		float: right;
-		font-size: 0.7em;
+		font-size: 0.8em;
+		font-weight: 700;
 	}
 
 	.btn_alert {
