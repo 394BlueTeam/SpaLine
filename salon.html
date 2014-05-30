@@ -6,8 +6,16 @@
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css' />
         <script type="text/javascript" src="https://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=true"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script type="text/javascript" src="js/salongeneration.js"></script>
-		<script type="text/javascript" src="js/utilities.js"></script>
+        <script type="text/javascript" src="js/utilities.js"></script>
+        <script>
+            $(function() {
+                $( "#date-search" ).datepicker();
+            });
+        </script>
 
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
@@ -23,7 +31,7 @@
     </head>
     
     <body>
-    	<div id="map-canvas"></div> 
+        <div id="map-canvas"></div> 
         
         <!-- HEADER -->
         <div class="header">
@@ -63,7 +71,7 @@
                     
                         Search: <input id="stylist-search" type="text" style="margin-bottom:20px"></input>
                         <div id="cancel-search" onclick="clearSearch()">X</div>
-                        Date: <input id="date-search" type="date"></input>
+                        Date: <input id="date-search" type="text"></input>
                         <div type="button" class="btn btn-default" id="change-date">Change Date</div>
                     
                     </div>
@@ -245,11 +253,9 @@
             $('#change-date').click(function(){
                 var ref = getURLParams('ref');
                 var newDate = document.getElementById('date-search');
-                newDate =  newDate.value;
+                newDateStr =  newDate.value;
                 console.log("Ref is: ",  ref);
                 console.log("new date is: ", newDate);
-                var datePieces = newDate.split("-");
-                var newDateStr = datePieces[1]+"/"+datePieces[2]+"/"+datePieces[0];
                 if(newDate == "")
                 {
                     alert("Please select a date");
