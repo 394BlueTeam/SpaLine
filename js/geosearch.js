@@ -180,7 +180,7 @@ function getResultDetails(places, response, status) {
 
 function addSalon(place, distance){
     pic = insertPic(place.photos);
-    var rating = createRatingString(place.user_ratings_total);
+    var rating = createRatingString(place.rating);
     var price = createPriceString(place.price_level);
     if (pic != '') {
       var html = "<li class='col-sm-4 col-md-3 thumbnail'>";

@@ -368,6 +368,7 @@ h2, p, ol, ul, li {
 	float: left;
 	text-align: left;
 	margin-left: 35px;
+	width: 75%;
 }
 
 .name {
@@ -375,22 +376,31 @@ h2, p, ol, ul, li {
 	margin-bottom: 2px !important;
 }
 
-.appts {
-	background: #f1f1f1;
-	clear: both;
-	height: 100%;
+.rate {
+	float: left;
 }
 
 .address {
-	float: left;
+	float: right;
+	margin: 0;
+	padding: 0;
 }
 
 .distance {
 	float: right;
+	clear: both;
+	margin: 0;
+	padding: 0;
 }
 
 .price {
-	clear:both;
+	float: left;
+}
+
+.appts {
+	background: #f1f1f1;
+	clear: both;
+	height: 100%;
 }
 
 @media screen and (max-device-width:750px) {
@@ -402,26 +412,38 @@ h2, p, ol, ul, li {
 	.caption {
 		float: none !important;
 		text-align: left;
-		margin-left: 115px;
+		margin-left: 105px;
 	}
 
 	.appts {
-		margin-top: 24px;
+		margin-top: 10px;
 	}
 
 	.name {
-		font-size: 1.2em;
+		font-size: 1.1em;
 		margin-top: 0 !important;
 		margin-top: 2px !important;
 	}
 	
+	.rate {
+		float: none;
+		margin-bottom: 3px;
+	}
+
 	.address {
+		float: none;
 		font-size: 0.8em;
+		margin-bottom: 3px;
+	}
+
+	.price {
+		float: left;
+		margin-bottom: 3px;
 	}
 
 	.distance {
 		float: right;
-		font-size: 0.8em;
+		font-size: 0.9em;
 		font-weight: 700;
 	}
 
@@ -432,9 +454,14 @@ h2, p, ol, ul, li {
 	.icon {
 		margin-left: 5px;
 		margin-top: 10px;
-		width: 100px;
-		height: 100px;
+		width: 90px;
+		height: 90px;
 		float: left;
+	}
+
+	.panel-body {
+		padding: 4px 5px 0px 5px;
+		height: 43px;
 	}
 }
 
