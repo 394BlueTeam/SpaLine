@@ -19,8 +19,8 @@
       <script type="text/javascript">
           Parse.initialize("o6UHd0P7UT2nyRw8Djmz8YwxG6copYOr2DjhGpoA", "1WDfNgPeu4d8Qc9bHyeNMVOPkvBVQ7mmYLnu53pD");
       </script>
-      <script src="js/geosearch.js"></script>
-      <script src="js/utilities.js"></script>
+      <script src="JS/geosearch.js"></script>
+      <script src="JS/utilities.js"></script>
     </head>
 
 
@@ -45,11 +45,12 @@
             <ul id="salonList" class="row"></ul>
         </div>
 
-        // <script type="text/javascript">
-        //   var emptyTest = $('.list-btns').is(':empty');
-        //   if (emptyTest) {
-        //     $('.panel-body').hide();
-        //   }
-        // </script>
+        <script type="text/javascript">
+          var emptyTest = $('.list-btns').is(':empty');
+          if (emptyTest) {
+            $('.panel-list').hide();
+            // $('.list-btns').append("<p>This salon does not have any availabilites at this time. Please try again soon.</p>");
+          }
+        </script>
     </body>
 </html>
