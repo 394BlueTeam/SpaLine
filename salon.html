@@ -60,10 +60,12 @@
                     <div class="details"></div>
 
                     <div class="list-stylists">
+                    
                         Search: <input id="stylist-search" type="text" style="margin-bottom:20px"></input>
                         <div id="cancel-search" onclick="clearSearch()">X</div>
                         Date: <input id="date-search" type="date"></input>
                         <div type="button" class="btn btn-default" id="change-date">Change Date</div>
+                    
                     </div>
                 </div>
             </div>
@@ -236,6 +238,7 @@
                         $(this).show()
                     }
                 })
+                $('#cancel-search').css('display', 'inline')
             })
 
 
