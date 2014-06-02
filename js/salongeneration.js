@@ -111,7 +111,7 @@ function insertQuickInfo(name, type, rating, price, url){
 		pricestr = "";
 	}
 	else {
-		pricestr = "<p class=\"price\">Price Range: " + dollarstr + "</p>";
+		pricestr = "<p class=\"cost\">Price Range: " + dollarstr + "</p>";
 	}
 	
 	// get the link
