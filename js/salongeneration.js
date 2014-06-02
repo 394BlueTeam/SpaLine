@@ -223,10 +223,8 @@ function getDateStr(){
 	var todayDateObj = new Date(todayString);
 	var selectedDateStr =  getURLParams('date');
 	var selectedDateObj = new Date(selectedDateStr);
-	console.log("Today String is: ", todayString);
-	console.log("Selected String is: ", selectedDateStr);
 
-	if(selectedDateStr < 0 || selectedDateObj == todayDateObj)
+	if(selectedDateStr < 0 || selectedDateObj.getTime() == todayDateObj.getTime() || selectedDateStr == "")
 	{
 		return todayString;
 	}

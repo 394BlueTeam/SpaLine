@@ -24,6 +24,7 @@ function getUserLocation(){
 }
 
 function requestSalonInformation(position){
+  console.log("in request salon info");
   if(position)
   {
     requestLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -199,11 +200,9 @@ function addSalon(place, distance){
     {
       if(!!place.opening_hours)
       {
-        // console.log("opening hours exists");
         var appointHeaderStr = "<div class=\"panel-body\"><div class=\"list-btns\">";
         var buttonHeader = "<button type=\"button\" class=\"btn btn-primary .btn-sm\">";
         var appointmentStr = createAppointmentButtons(place);
-        console.log("Appointment string is: ", appointmentStr);
         if(appointmentStr == "")
         {
           buttons = "<div class='appts'><p class='btn_alert'>Sorry, it looks like this salon has no more available appointments today</p>";
@@ -330,18 +329,23 @@ function createAppointmentButtons(place){
   storeSalonID(id, reference, name, address);
 
   var now = getCurrentTimePieces();
+  console.log("now is: ", now);
   var hours = place.opening_hours.periods;
   var sortedHours = hours.sort(sortOpeningTimes);
-  // console.log(place.opening_hours.periods);
   var todayIndex = getTodaysIndex(now[2], sortedHours);
-  var availableTimes = createSalonAppointments(place.opening_hours.periods, now, todayIndex);
-
+  console.log("hours is: ", sortedHours);
+  console.log("Today index is: ", todayIndex);
   var resultstr = "";
-  // console.log("availableTimes is: ", availableTimes);
-  for(var i = 0; i < availableTimes.length; i++)
+  if(todayIndex > -1)
   {
-    resultstr += " "+createAppointmentString(name, address, availableTimes[i], datestr, id);
-  }  
+    var availableTimes = createSalonAppointments(sortedHours, now, todayIndex);
+
+    // console.log("availableTimes is: ", availableTimes);
+    for(var i = 0; i < availableTimes.length; i++)
+    {
+      resultstr += " "+createAppointmentString(name, address, availableTimes[i], datestr, id);
+    }  
+  }
 
   return resultstr;
 }
