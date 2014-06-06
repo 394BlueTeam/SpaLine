@@ -85,7 +85,7 @@
                                     <div id="stylist-div" class="form-group">
                                       <label for="stylist-search" class="col-sm-2 control-label">Stylist: </label>
                                         <div class="col-sm-7">
-                                            <input id="stylist-search" class="form-control hasclear" type="search" style="margin-bottom:20px" placeholder="ex. Khal Drogo">
+                                            <input id="stylist-search" class="form-control" type="text" style="margin-bottom:20px" placeholder="ex. Khal Drogo">
                                             <span class="clearer glyphicon glyphicon-remove form-control-feedback"></span>
                                             <!-- <div id="cancel-search" onclick="clearSearch()">x</div> -->
                                         </div>
@@ -242,7 +242,8 @@
             </div> -->
 
         </div>
-        <!--filter-->
+        
+
         <script type="text/javascript">
             $( "#stylists" ).click(function() {
                 $("div.reviews").hide();
@@ -269,17 +270,6 @@
               $('.filter-icon').find('i').toggleClass('fa-chevron-down fa-chevron-up');
             }
 
-            $(".hasclear").keyup(function () {
-                var t = $(this);
-                t.next('span').toggle(Boolean(t.val()));
-            });
-            $(".clearer").hide($(this).prev('input').val());
-            $(".clearer").click(function () {
-                $(this).prev('input').val('').focus();
-                $(this).hide();
-            });
-        </script>
-        <script>
             $('#stylist-search').keyup(function(){
                 var search = $('#stylist-search').val().toLowerCase()
                 $('.panel').each(function(){  
@@ -312,11 +302,11 @@
             })
 
             function clearSearch(){
-            $('#stylist-search').val('')
-            $('.panel').each(function(){  
-                        $(this).show()
-                })
-        }
+                $('#searchclear').val('')
+                $('.panel').each(function(){  
+                            $(this).show()
+                    })
+            }
         </script>
     </body>
 </html>
