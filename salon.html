@@ -86,8 +86,8 @@
                                       <label for="stylist-search" class="col-sm-2 control-label">Stylist: </label>
                                         <div class="col-sm-7">
                                             <input id="stylist-search" class="form-control" type="text" style="margin-bottom:20px" placeholder="ex. Khal Drogo">
-                                            <span class="clearer glyphicon glyphicon-remove form-control-feedback"></span>
-                                            <!-- <div id="cancel-search" onclick="clearSearch()">x</div> -->
+                                            <!-- <span class="clearer glyphicon glyphicon-remove form-control-feedback"></span> -->
+                                            <div id="cancel-search" class="glyphicon glyphicon-remove" onclick="clearSearch()"></div>
                                         </div>
                                     </div>
 
@@ -301,11 +301,11 @@
                 }
             })
 
-            function clearSearch(){
-                $('#searchclear').val('')
+            function clearSearch() {
+                $('#stylist-search').val('');
                 $('.panel').each(function(){  
-                            $(this).show()
-                    })
+                    $(this).show();
+                })
             }
         </script>
     </body>
