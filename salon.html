@@ -85,8 +85,9 @@
                                     <div id="stylist-div" class="form-group">
                                       <label for="stylist-search" class="col-sm-2 control-label">Stylist: </label>
                                         <div class="col-sm-7">
-                                            <span><input id="stylist-search" class="form-control clearable" type="text" style="margin-bottom:20px" placeholder="ex. Khal Drogo">
-                                            <div id="cancel-search" onclick="clearSearch()">x</div></span>
+                                            <input id="stylist-search" class="form-control hasclear" type="search" style="margin-bottom:20px" placeholder="ex. Khal Drogo">
+                                            <span class="clearer glyphicon glyphicon-remove form-control-feedback"></span>
+                                            <!-- <div id="cancel-search" onclick="clearSearch()">x</div> -->
                                         </div>
                                     </div>
 
@@ -94,7 +95,7 @@
                                     <div id="date-div" class="form-group">
                                       <label for="date-search" class="col-sm-2 control-label">Date: </label>
                                       <div class="col-sm-7">
-                                        <input type="text" class="form-control" id="date-search" name="date-search">
+                                        <input type="text" class="form-control" id="date-search" name="date-search" />
                                         <div type="button" class="btn btn-default" id="change-date">Change Date</div>
                                       </div>
                                     </div>
@@ -268,18 +269,14 @@
               $('.filter-icon').find('i').toggleClass('fa-chevron-down fa-chevron-up');
             }
 
-            $(function($) {
-                function tog(v){
-                    return v?'addClass':'removeClass';
-                } 
-
-                $(document).on('input', '.clearable', function(){
-                    $(this)[tog(this.value)]('x');
-                }).on('mousemove', '.x', function( e ){
-                    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');   
-                }).on('click', '.onX', function(){
-                    $(this).removeClass('x onX').val('');
-                });
+            $(".hasclear").keyup(function () {
+                var t = $(this);
+                t.next('span').toggle(Boolean(t.val()));
+            });
+            $(".clearer").hide($(this).prev('input').val());
+            $(".clearer").click(function () {
+                $(this).prev('input').val('').focus();
+                $(this).hide();
             });
         </script>
         <script>
